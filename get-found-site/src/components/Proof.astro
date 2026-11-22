@@ -1,0 +1,33 @@
+---
+/**
+ * Testimonials / case studies. Renders nothing until proof.enabled is true
+ * AND there is at least one real item in src/content/site.ts.
+ */
+import { proof } from '../content/site';
+const show = proof.enabled && proof.items.length > 0;
+---
+
+{
+  show && (
+    <section id="proof" class="section on-light bg-paper text-ink" aria-labelledby="proof-h">
+      <div class="wrap">
+        <h2 id="proof-h" class="h2 mt-3 max-w-3xl">{proof.heading}</h2>
+        <ul class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {proof.items.map((item) => (
+            <li class="rounded-3xl bg-chalk p-7 ring-1 ring-paper-2">
+              <figure>
+                <blockquote class="text-lg leading-relaxed">{item.quote}</blockquote>
+                <figcaption class="mt-5 text-sm">
+                  <span class="font-bold">{item.name}</span>
+                  {(item.role || item.business) && (
+                    <span class="block text-slate">{[item.role, item.business].filter(Boolean).join(', ')}</span>
+                  )}
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

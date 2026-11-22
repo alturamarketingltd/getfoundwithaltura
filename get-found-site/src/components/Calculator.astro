@@ -1,0 +1,103 @@
+---
+import { worthIt, pricing } from '../content/site';
+const c = worthIt.calculator;
+const plan = pricing.plans.find((p) => p.id === c.comparePlanId) ?? pricing.plans[0];
+---
+
+<form
+  id="roi"
+  class="rounded-3xl bg-chalk p-6 shadow-sm ring-1 ring-paper-2 sm:p-8"
+  data-price-cad={plan.monthly.CAD}
+  data-price-usd={plan.monthly.USD}
+  data-min-fee={c.minFee}
+  data-below-min={c.belowMinNote}
+  onsubmit="return false"
+  novalidate
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="roi-fee" class="block text-sm font-semibold">{c.feeLabel}</label>
+      <div class="relative mt-2">
+        <span class="pointer-events-none absolute inset-y-0 left-4 grid place-items-center text-slate" aria-hidden="true">$</span>
+        <input
+          id="roi-fee"
+          name="fee"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          step="1"
+          value={c.defaultFee}
+          class="block w-full rounded-xl border-2 border-ink/25 bg-paper py-3 pl-8 pr-4 text-lg font-semibold text-ink"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="roi-visits" class="block text-sm font-semibold">{c.visitsLabel}</label>
+      <input
+        id="roi-visits"
+        name="visits"
+        type="number"
+        inputmode="numeric"
+        min="0"
+        step="1"
+        value={c.defaultVisits}
+        class="mt-2 block w-full rounded-xl border-2 border-ink/25 bg-paper px-4 py-3 text-lg font-semibold text-ink"
+      />
+    </div>
+  </div>
+
+  <div class="mt-6 min-h-36 rounded-2xl bg-ink p-5 text-paper sm:min-h-32 sm:p-6" role="status" aria-live="polite" aria-atomic="true">
+    <p class="font-display text-2xl font-bold leading-tight sm:text-3xl">
+      A new client is worth about <span class="text-paper underline decoration-mist decoration-2 underline-offset-4" id="roi-value">${(c.defaultFee * c.defaultVisits).toLocaleString('en-US')}</span>.
+    </p>
+    <p class="mt-2 text-lg text-paper" id="roi-result">Enter your numbers to see how that compares.</p>
+  </div>
+
+  <p class="mt-4 text-sm text-slate">
+    {c.compareNote}{' '}
+    <span data-cur="CAD">${plan.monthly.CAD} CAD</span><span data-cur="USD">${plan.monthly.USD} USD</span> a month.
+  </p>
+</form>
+
+<script>
+  const form = document.getElementById('roi') as HTMLFormElement | null;
+  if (form) {
+    const fee = form.querySelector<HTMLInputElement>('#roi-fee')!;
+    const visits = form.querySelector<HTMLInputElement>('#roi-visits')!;
+    const valueEl = form.querySelector<HTMLElement>('#roi-value')!;
+    const resultEl = form.querySelector<HTMLElement>('#roi-result')!;
+    const money = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+
+    const update = () => {
+      const currency = document.documentElement.dataset.currency === 'USD' ? 'USD' : 'CAD';
+      const price = Number(currency === 'USD' ? form.dataset.priceUsd : form.dataset.priceCad);
+      const value = Math.max(0, Number(fee.value) || 0) * Math.max(0, Number(visits.value) || 0);
+      valueEl.textContent = money(value) + ' ' + currency;
+
+      if (!value) {
+        resultEl.textContent = 'Enter your numbers to see how that compares.';
+        return;
+      }
+      // Below the minimum visit or membership value, say plainly that it is not the right fit.
+      if ((Number(fee.value) || 0) < Number(form.dataset.minFee)) {
+        resultEl.textContent = form.dataset.belowMin!;
+        return;
+      }
+      const ratio = value / price;
+      if (ratio < 1) {
+        const needed = Math.ceil(price / value);
+        resultEl.textContent = `It takes about ${needed} new clients a month to cover Get Found.`;
+      } else if (ratio < 1.25) {
+        resultEl.textContent = 'One new client a month covers Get Found.';
+      } else {
+        const rounded = ratio >= 10 ? Math.round(ratio) : Math.round(ratio * 10) / 10;
+        resultEl.textContent = `One new client a month covers Get Found about ${rounded} times over.`;
+      }
+    };
+
+    fee.addEventListener('input', update);
+    visits.addEventListener('input', update);
+    window.addEventListener('gf:currency', update);
+    update();
+  }
+</script>

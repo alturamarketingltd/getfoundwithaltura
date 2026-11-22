@@ -1,0 +1,111 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site, CONTACT_EMAIL } from '../content/site';
+const contact = CONTACT_EMAIL || '[contact email to be added before launch]';
+---
+
+<Legal
+  title={`Privacy policy | ${site.name}`}
+  description={`How ${site.name}, a service by ${site.company}, handles personal information from visitors to this website.`}
+  heading="Privacy policy"
+>
+  <p>
+    This website is run by {site.company} ("we", "us"), a company based in British Columbia, Canada. {site.name} is one of
+    our services. This policy explains, in plain language, what information we collect from visitors to this website, why,
+    and what choices you have.
+  </p>
+
+  <h2>The short version</h2>
+  <ul>
+    <li>We collect as little as possible.</li>
+    <li>This website does not use advertising cookies or tracking cookies.</li>
+    <li>We only get your name or email if you request a scorecard, book a call or email us.</li>
+    <li>We only send marketing emails if you tick the box asking for them, and you can unsubscribe at any time.</li>
+    <li>We do not sell personal information.</li>
+  </ul>
+
+  <h2>What we collect and why</h2>
+  <p>
+    <strong>Website analytics.</strong> We may use a privacy-friendly analytics tool that does not use cookies and does not
+    identify individual visitors. It tells us things like how many people visited a page, which country they were in, and
+    which buttons were clicked (for example, the booking button or the newsletter link). We use this to understand whether
+    the website is useful.
+  </p>
+  <p>
+    <strong>Booking a call.</strong> If you book a free visibility check, you are taken to a third-party booking tool. It
+    collects the details you enter, such as your name, email, business name and the time you choose. We use these details
+    to hold the call and follow up with you about it. The booking tool has its own privacy policy, which applies when you
+    use it.
+  </p>
+  <p>
+    <strong>Requesting a scorecard.</strong> If you ask for a free visibility scorecard, we collect your business name, your
+    city or neighbourhood, what your business does and your email address. We use these details to prepare the scorecard
+    from publicly available information about your business and to email it to you. We will only send you marketing
+    emails if you tick the optional box on the form. We keep a record of that choice, and every marketing email includes
+    an unsubscribe link.
+  </p>
+  <p>
+    <strong>Emailing us.</strong> If you email us, we receive your email address and whatever you choose to write. We use it
+    to reply and to keep a record of our conversation.
+  </p>
+  <p>
+    <strong>Your currency choice.</strong> If you switch between CAD and USD prices, your browser remembers that choice on
+    your own device (in local storage). It is not sent to us and it is not a cookie.
+  </p>
+  <p>
+    <strong>Hosting.</strong> Our hosting provider processes technical information that every website needs to work, such
+    as your IP address and browser type, to deliver pages and protect against abuse.
+  </p>
+
+  <h2>What we do not collect</h2>
+  <p>
+    We do not ask for or collect health information on this website. Please do not send us any information about your
+    patients or clients.
+  </p>
+
+  <h2>Who we share it with</h2>
+  <p>
+    We share information only with the service providers we need to run this website and our business: our hosting and
+    analytics provider, our booking tool and our email provider. They may only use the information to provide their service
+    to us. We may also disclose information if the law requires it.
+  </p>
+
+  <h2>Where your information is stored</h2>
+  <p>
+    Some of the tools we use are run by companies based in the United States, and they may store or process information
+    there or in other countries. That means the information may be accessible to courts and law enforcement in those
+    countries under their laws.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <p>
+    We keep booking and email details for as long as we need them to respond to you and to run our business, and then we
+    delete them. You can ask us to delete your information sooner.
+  </p>
+
+  <h2>Your choices and rights</h2>
+  <p>
+    You can ask us what personal information we hold about you, ask us to correct it, or ask us to delete it. You can also
+    withdraw your consent to us contacting you at any time. To do any of this, contact us using the details below. If you
+    are in Canada and are not satisfied with our answer, you can contact the Office of the Privacy Commissioner of Canada
+    or the privacy commissioner for your province.
+  </p>
+
+  <h2>For visitors in the United States</h2>
+  <p>
+    We do not sell personal information, and we do not share it for cross-context behavioural advertising. Depending on the
+    state you live in, you may have the right to know what personal information we hold about you, to correct it and to
+    have it deleted, and the right not to be treated differently for using these rights. To make a request, contact us
+    using the details below. This website is not directed at children under 13 and we do not knowingly collect their
+    information.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>If we change this policy, we will post the new version on this page and update the date at the top.</p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about privacy? Contact the person responsible for privacy at {site.company}:
+    {CONTACT_EMAIL ? <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> : <strong>{contact}</strong>}.
+  </p>
+</Legal>

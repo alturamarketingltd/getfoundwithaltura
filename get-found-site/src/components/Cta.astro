@@ -1,0 +1,63 @@
+---
+import { cta } from '../content/site';
+import { ctaHref, ctaMode, primaryHref, scorecardLive } from '../lib/cta';
+
+interface Props {
+  /** Where on the page this button sits. Sent with the click event and as utm_content. */
+  location: string;
+  /** The surface the button sits on. */
+  surface?: 'dark' | 'light';
+  size?: 'md' | 'sm';
+  /** 'outline' is the secondary style, for when another action leads. */
+  variant?: 'solid' | 'outline';
+  label?: string;
+  /** 'primary' goes to the free visibility check (scorecard); 'call' books the optional call. */
+  action?: 'primary' | 'call';
+}
+
+const { location, surface = 'dark', size = 'md', label = cta.label, variant = 'solid', action = 'primary' } = Astro.props;
+const toScorecard = action === 'primary' && scorecardLive;
+const href = action === 'call' ? ctaHref(location) : primaryHref(location);
+const external = !toScorecard && ctaMode === 'booking';
+
+const base =
+  'group inline-flex items-center justify-center gap-3 rounded-full font-semibold leading-tight transition-transform duration-150';
+const sizes = size === 'sm' ? 'min-h-11 px-4 py-3 text-sm' : 'px-6 py-4 text-base sm:text-lg';
+const colours =
+  variant === 'outline'
+    ? surface === 'dark'
+      ? 'border-2 border-paper text-paper'
+      : 'border-2 border-ink text-ink'
+    : surface === 'dark'
+      ? 'bg-sun text-ink'
+      : 'bg-ink text-paper';
+const chip = surface === 'dark' ? 'bg-ink text-sun' : 'bg-sun text-ink';
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class:list={[base, sizes, colours, 'hover:-translate-y-0.5']}
+      data-event={toScorecard ? 'scorecard_cta_click' : 'booking_cta_click'}
+      data-location={location}
+      rel={external ? 'noopener' : undefined}
+    >
+      <span>{label}</span>
+      {size === 'md' && (
+        <span class:list={['grid h-7 w-7 shrink-0 place-items-center rounded-full', chip]} aria-hidden="true">
+          <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+        </span>
+      )}
+    </a>
+  ) : (
+    <span class="inline-flex flex-col items-start gap-2">
+      <span role="link" aria-disabled="true" class:list={[base, sizes, colours, 'cursor-not-allowed opacity-70']}>
+        <span>{label}</span>
+      </span>
+      {import.meta.env.DEV && (
+        <span class="rounded bg-[#ffd166] px-2 py-1 text-xs font-semibold text-ink">{cta.comingSoon}</span>
+      )}
+    </span>
+  )
+}

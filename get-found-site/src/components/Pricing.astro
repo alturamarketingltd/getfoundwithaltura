@@ -1,0 +1,91 @@
+---
+import { pricing } from '../content/site';
+import Cta from './Cta.astro';
+const currencies = ['CAD', 'USD'] as const;
+const monthly = pricing.plans.find((p) => p.id === 'monthly')!;
+const yearly = pricing.plans.find((p) => p.id === '12-month')!;
+const exit = pricing.earlyExit;
+---
+
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <p class="max-w-xl text-lg text-slate">{pricing.intro}</p>
+  <div role="group" aria-label="Currency" class="inline-flex rounded-full bg-chalk p-1 ring-1 ring-ink/20">
+    {
+      currencies.map((cur) => (
+        <button
+          type="button"
+          data-currency-btn={cur}
+          aria-pressed={cur === pricing.defaultCurrency ? 'true' : 'false'}
+          class="min-h-11 min-w-16 rounded-full px-4 text-sm font-bold text-ink aria-pressed:bg-ink aria-pressed:text-paper"
+        >
+          {cur}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<ul class="mt-8 grid gap-5 lg:grid-cols-3">
+  {
+    pricing.plans.map((plan) => {
+      const featured = Boolean(plan.badge);
+      return (
+        <li
+          class:list={[
+            'relative flex flex-col rounded-3xl p-7',
+            featured ? 'on-dark bg-ink text-paper shadow-xl' : 'bg-chalk text-ink ring-1 ring-paper-2',
+          ]}
+        >
+          <div class="flex min-h-8 items-center justify-between gap-3">
+            <h3 class="text-xl font-bold">{plan.name}</h3>
+            {plan.badge && <span class="rounded-full bg-paper px-3 py-1 text-xs font-bold text-ink">{plan.badge}</span>}
+          </div>
+          <p class="mt-6 flex items-baseline gap-2">
+            {currencies.map((cur) => (
+              <span data-cur={cur} class="font-display text-6xl font-bold tracking-tight">
+                ${plan.monthly[cur]}
+              </span>
+            ))}
+            <span class:list={['text-base', featured ? 'text-mist' : 'text-slate']}>
+              {currencies.map((cur) => (
+                <span data-cur={cur}>{cur} </span>
+              ))}
+              / month
+            </span>
+          </p>
+          <p class:list={['mt-4 text-base font-semibold', featured ? 'text-paper' : 'text-slate']}>
+            {plan.setupWaived
+              ? pricing.setupWaivedLabel
+              : currencies.map((cur) => <span data-cur={cur}>+ ${pricing.setup[cur]} setup</span>)}
+          </p>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<div class="mt-6 text-sm text-slate">
+  <p class="font-semibold text-ink">{pricing.setupLine}</p>
+  <p class="mt-1">{pricing.taxNote}</p>
+</div>
+
+<div class="mt-6 max-w-3xl rounded-2xl bg-chalk p-5 ring-1 ring-paper-2 sm:p-6">
+  <h3 class="text-lg font-bold">{exit.heading}</h3>
+  <p class="mt-2 text-slate">{exit.body}</p>
+  <p class="mt-2 text-sm text-slate">
+    For example, leaving the 12-month plan after {exit.exampleMonths} months:{' '}
+    {currencies.map((cur) => (
+      <span data-cur={cur}>
+        {exit.exampleMonths} &times; (${monthly.monthly[cur]} &minus; ${yearly.monthly[cur]}) = ${exit.exampleMonths * (monthly.monthly[cur] - yearly.monthly[cur])} {cur}.
+      </span>
+    ))}
+  </p>
+</div>
+
+<p class="mt-8 text-lg">
+  <a href="#what-you-get" class="font-semibold underline underline-offset-4">{pricing.includedLine}</a>
+</p>
+
+<div class="mt-10">
+  <Cta location="pricing" surface="light" />
+</div>

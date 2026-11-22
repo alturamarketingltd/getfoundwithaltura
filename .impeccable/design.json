@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-22T18:03:21Z",
+  "title": "Design System: Get Found",
+  "extensions": {
+    "colorMeta": {
+      "klein-blue": {
+        "role": "primary",
+        "displayName": "Klein Blue",
+        "tonalRamp": [
+          "#000d33",
+          "#001a63",
+          "#002fa7",
+          "#1a47c0",
+          "#3355c2",
+          "#6f8ade",
+          "#a9bbee",
+          "#e3e9fb"
+        ]
+      },
+      "signal-yellow": {
+        "role": "secondary",
+        "displayName": "Signal Yellow",
+        "tonalRamp": [
+          "#3d3300",
+          "#7a6600",
+          "#b89d12",
+          "#e3c52e",
+          "#f9e14c",
+          "#fbe97a",
+          "#fdf2b0",
+          "#fefbe6"
+        ]
+      },
+      "linen": {
+        "role": "neutral",
+        "displayName": "Linen",
+        "tonalRamp": [
+          "#2b261d",
+          "#554d3e",
+          "#8a7f6a",
+          "#b5a993",
+          "#d6cbb6",
+          "#e9e1d3",
+          "#f6f1e8",
+          "#fcfaf5"
+        ]
+      },
+      "chalk": {
+        "role": "neutral",
+        "displayName": "Chalk"
+      },
+      "front-desk-navy": {
+        "role": "neutral",
+        "displayName": "Front Desk Navy"
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist"
+      },
+      "slate": {
+        "role": "neutral",
+        "displayName": "Slate"
+      },
+      "hint": {
+        "role": "neutral",
+        "displayName": "Hint"
+      },
+      "blue-hairline": {
+        "role": "neutral",
+        "displayName": "Blue Hairline"
+      },
+      "linen-hairline": {
+        "role": "neutral",
+        "displayName": "Linen Hairline"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "One per section."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card, step and plan names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Paragraphs, under ~70 characters a line."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Chips, form labels, small print."
+      }
+    },
+    "shadows": [
+      {
+        "name": "showcase",
+        "value": "0 25px 50px -12px rgb(0 0 0 / 0.4)",
+        "purpose": "Hero map and sample report cards floating on blue."
+      },
+      {
+        "name": "panel",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Chalk forms and calculator on linen, with a 1px linen hairline."
+      },
+      {
+        "name": "featured",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+        "purpose": "Featured pricing plan and the mobile menu panel."
+      }
+    ],
+    "motion": [
+      {
+        "name": "lift",
+        "value": "transform 150ms",
+        "purpose": "Buttons lift 2px on hover."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button on Blue",
+      "kind": "button",
+      "refersTo": "button-primary-on-blue",
+      "description": "The main action on a blue section.",
+      "html": "<button class=\"ds-btn-blue\">Book a free 20-minute visibility check</button>",
+      "css": ".ds-btn-blue{background:var(--color-sun,#f9e14c);color:var(--color-ink,#002fa7);border:0;border-radius:9999px;padding:16px 24px;font:600 1.125rem/1.25 'Hanken Grotesk',system-ui,sans-serif;transition:transform 150ms;cursor:pointer}.ds-btn-blue:hover{transform:translateY(-2px)}.ds-btn-blue:focus-visible{outline:3px solid #f9e14c;outline-offset:3px}"
+    },
+    {
+      "name": "Primary Button on Linen",
+      "kind": "button",
+      "refersTo": "button-primary-on-linen",
+      "description": "The main action on a linen section.",
+      "html": "<button class=\"ds-btn-linen\">Send me my scorecard</button>",
+      "css": ".ds-btn-linen{background:var(--color-ink,#002fa7);color:var(--color-paper,#e9e1d3);border:0;border-radius:9999px;padding:16px 24px;font:600 1.125rem/1.25 'Hanken Grotesk',system-ui,sans-serif;transition:transform 150ms;cursor:pointer}.ds-btn-linen:hover{transform:translateY(-2px)}.ds-btn-linen:focus-visible{outline:3px solid #002fa7;outline-offset:3px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary-on-linen",
+      "description": "Outline pill when another action leads the section.",
+      "html": "<button class=\"ds-btn-outline\">Book a free call</button>",
+      "css": ".ds-btn-outline{background:transparent;color:#002fa7;border:2px solid #002fa7;border-radius:9999px;padding:14px 22px;font:600 1.125rem/1.25 'Hanken Grotesk',system-ui,sans-serif;transition:transform 150ms;cursor:pointer}.ds-btn-outline:hover{transform:translateY(-2px)}.ds-btn-outline:focus-visible{outline:3px solid #002fa7;outline-offset:3px}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Form field on a chalk panel.",
+      "html": "<label class=\"ds-field\"><span>City or neighbourhood</span><input placeholder=\"Austin, TX\"></label>",
+      "css": ".ds-field{display:block;font:600 .875rem/1.4 'Hanken Grotesk',system-ui,sans-serif;color:#002fa7}.ds-field input{display:block;margin-top:8px;width:100%;background:#e9e1d3;color:#002fa7;border:2px solid rgb(0 47 167/.25);border-radius:12px;padding:12px 16px;font:500 1rem 'Hanken Grotesk',system-ui,sans-serif}.ds-field input::placeholder{color:#5a6280}.ds-field input:focus-visible{outline:3px solid #002fa7;outline-offset:3px}"
+    },
+    {
+      "name": "Card on Blue",
+      "kind": "card",
+      "refersTo": "card-on-blue",
+      "description": "Feature card in the What you get chapter.",
+      "html": "<div class=\"ds-card-blue\"><h3>Better visibility on Google Maps</h3><p>We keep your Google profile complete, current and active.</p></div>",
+      "css": ".ds-card-blue{background:#001a63;color:#e9e1d3;border:1px solid #3355c2;border-radius:24px;padding:28px;font-family:'Hanken Grotesk',system-ui,sans-serif}.ds-card-blue h3{margin:0;font:700 1.25rem/1.3 'Hanken Grotesk',system-ui,sans-serif}.ds-card-blue p{margin:8px 0 0;color:#c9d3f5;line-height:1.6}"
+    },
+    {
+      "name": "Card on Linen",
+      "kind": "card",
+      "refersTo": "card-on-linen",
+      "description": "Chalk panel for forms and the calculator.",
+      "html": "<div class=\"ds-card-linen\"><h3>Leaving a 6- or 12-month plan early?</h3><p>You pay back the difference for the months you've had.</p></div>",
+      "css": ".ds-card-linen{background:#f6f1e8;color:#002fa7;border:1px solid #d6cbb6;border-radius:24px;padding:28px;box-shadow:0 1px 2px rgb(0 0 0/.05);font-family:'Hanken Grotesk',system-ui,sans-serif}.ds-card-linen h3{margin:0;font:700 1.125rem/1.3 'Hanken Grotesk',system-ui,sans-serif}.ds-card-linen p{margin:8px 0 0;color:#3d4565}"
+    },
+    {
+      "name": "Outline Chip",
+      "kind": "chip",
+      "refersTo": "chip-on-blue",
+      "description": "Quiet label on blue.",
+      "html": "<span class=\"ds-chip\">Sample report. Numbers are illustrative.</span>",
+      "css": ".ds-chip{display:inline-block;border:1px solid #c9d3f5;color:#c9d3f5;border-radius:9999px;padding:6px 16px;font:600 .875rem 'Hanken Grotesk',system-ui,sans-serif;background:#002fa7}"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "description": "Logo, links and header button on blue; menu button on phones.",
+      "html": "<nav class=\"ds-nav\"><strong>Get Found<b>.</b></strong><a href=\"#\">How it works</a><a href=\"#\">Pricing</a><a href=\"#\">FAQ</a></nav>",
+      "css": ".ds-nav{display:flex;gap:24px;align-items:center;background:#002fa7;color:#e9e1d3;padding:20px 32px;font:500 .875rem 'Hanken Grotesk',system-ui,sans-serif}.ds-nav strong{font-size:1.5rem;font-weight:800;margin-right:auto}.ds-nav b{color:#f9e14c}.ds-nav a{color:#e9e1d3;text-decoration:none}.ds-nav a:hover{color:#c9d3f5}.ds-nav a:focus-visible{outline:3px solid #f9e14c;outline-offset:3px;border-radius:6px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Clinic Front Desk",
+    "overview": "Get Found should feel like walking up to the front desk of a well-run practice: calm, friendly, professional, and easy to book. Two grounds carry the page: deep Klein blue for the confident chapters and warm linen for reading and deciding. Yellow is the single bright signal. Components lean warm and tactile.",
+    "keyCharacteristics": [
+      "Two grounds, Klein blue and linen, with a long blue chapter rather than strict alternation.",
+      "One typeface (Hanken Grotesk) for everything, with hierarchy from weight and size.",
+      "Yellow used sparingly, as a signal, never as decoration.",
+      "Soft, rounded, touchable components with gentle depth.",
+      "Plain-language copy; no labels above headings, no section numbers."
+    ],
+    "rules": [
+      {
+        "name": "The One Signal Rule",
+        "body": "Yellow marks what to press or the single thing to notice. At most one yellow element per view besides the logo dot; never yellow icons, rules, badges or underlines.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never-on-Linen Rule",
+        "body": "Yellow is never text on linen or chalk (about 1:1). On light grounds it may only sit behind Klein Blue text, and even that is rare.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading Speaks Rule",
+        "body": "No small uppercase labels above headings and no 01/02/03 section numbers. If a word matters, it belongs in the heading or the body.",
+        "section": "typography"
+      },
+      {
+        "name": "The Soft Lift Rule",
+        "body": "Depth is always soft and offset-free in feel: large blur, low opacity. Never hard offset shadows or coloured glows.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep each section to one main button.",
+      "Do use Mist for secondary text on blue and Slate on linen.",
+      "Do keep corners soft (24px cards, pill buttons) and depth gentle.",
+      "Do keep Hanken Grotesk for everything."
+    ],
+    "donts": [
+      "Don't use yellow for icons, rules, badges, numerals or highlighter underlines.",
+      "Don't put a small uppercase label or number above a heading.",
+      "Don't use slashed-zero or overly technical fonts.",
+      "Don't use hard offset shadows or coloured glows."
+    ]
+  }
+}

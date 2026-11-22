@@ -1,0 +1,19 @@
+# Dependencies and build output
+node_modules/
+dist/
+.astro/
+
+# OS
+.DS_Store
+
+# Original upload kept as a local backup
+get-found-site.zip
+
+# Claude Code personal settings
+.claude/settings.local.json
+
+# impeccable-ignore-start
+**/.impeccable/config.local.json
+**/.impeccable/hook.cache.json
+**/.impeccable/hook.pending.json
+# impeccable-ignore-end

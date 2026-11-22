@@ -1,0 +1,138 @@
+---
+/**
+ * Scorecard request form (lead magnet).
+ * Posts JSON to SCORECARD_FORM_ENDPOINT in src/content/site.ts.
+ * While the endpoint is empty the form is shown in dev only (with a warning) and sends nothing.
+ */
+import { scorecard, SCORECARD_FORM_ENDPOINT } from '../content/site';
+const live = Boolean(SCORECARD_FORM_ENDPOINT);
+const f = scorecard.form;
+const input =
+  'mt-2 block w-full rounded-xl border-2 border-ink/25 bg-paper px-4 py-3 text-base font-medium text-ink placeholder:text-hint';
+---
+
+<form
+  id="scorecard-form"
+  class="rounded-3xl bg-chalk p-6 text-left shadow-sm ring-1 ring-paper-2 sm:p-8"
+  data-endpoint={SCORECARD_FORM_ENDPOINT}
+  data-consent-text={f.optIn}
+  data-success={f.success}
+  data-error={f.error}
+  data-not-live={scorecard.notLive}
+>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="sc-business" class="block text-sm font-semibold">{f.businessLabel}</label>
+      <input id="sc-business" name="business" type="text" required maxlength="120" autocomplete="organization" class={input} />
+    </div>
+    <div>
+      <label for="sc-city" class="block text-sm font-semibold">{f.cityLabel}</label>
+      <input id="sc-city" name="city" type="text" required maxlength="120" autocomplete="address-level2" placeholder={f.cityPlaceholder} class={input} />
+    </div>
+    <div>
+      <label for="sc-service" class="block text-sm font-semibold">{f.serviceLabel}</label>
+      <input id="sc-service" name="service" type="text" required maxlength="120" placeholder={f.servicePlaceholder} class={input} />
+    </div>
+    <div>
+      <label for="sc-email" class="block text-sm font-semibold">{f.emailLabel}</label>
+      <input id="sc-email" name="email" type="email" required maxlength="254" autocomplete="email" inputmode="email" class={input} />
+    </div>
+  </div>
+
+  {/* Honeypot: hidden from people, filled in by bots. Submissions with a value are dropped. */}
+  <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label for="sc-website">Leave this field empty</label>
+    <input id="sc-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  {/* Marketing consent: optional and unticked by default (CASL express consent). */}
+  <label class="mt-6 flex items-start gap-3 text-sm leading-snug text-slate">
+    <input name="marketing" type="checkbox" class="mt-0.5 h-5 w-5 shrink-0 rounded border-2 border-ink/40 accent-ink" />
+    <span>{f.optIn}</span>
+  </label>
+
+  <div class="mt-6 flex flex-col items-start gap-3">
+    <button
+      type="submit"
+      class="inline-flex items-center justify-center gap-3 rounded-full bg-ink px-6 py-4 text-base font-semibold leading-tight text-paper transition-transform duration-150 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 sm:text-lg"
+      data-event="scorecard_submit_click"
+      data-location="scorecard"
+    >
+      {f.submit}
+    </button>
+    {!live && import.meta.env.DEV && (
+      <span class="rounded bg-[#ffd166] px-2 py-1 text-xs font-semibold text-ink">{scorecard.notLive}</span>
+    )}
+  </div>
+
+  <p class="mt-4 text-sm text-slate">
+    {f.finePrint} <a href="/privacy" class="underline underline-offset-2">{f.privacyLabel}</a>.
+  </p>
+
+  <p id="sc-status" class="mt-4 hidden rounded-2xl p-4 text-base font-semibold" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.getElementById('scorecard-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector<HTMLElement>('#sc-status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const loadedAt = Date.now();
+
+    const show = (text: string, ok: boolean) => {
+      status.textContent = text;
+      status.className =
+        'mt-4 rounded-2xl p-4 text-base font-semibold ' + (ok ? 'bg-ink text-paper' : 'bg-[#fde2dc] text-[#7a1f10]');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const endpoint = form.dataset.endpoint;
+
+      if (!endpoint) {
+        show(form.dataset.notLive!, false);
+        return;
+      }
+      // Bots fill the hidden field or submit instantly. Pretend it worked and send nothing.
+      if (data.get('website') || Date.now() - loadedAt < 2000) {
+        show(form.dataset.success!, true);
+        return;
+      }
+
+      const marketing = data.get('marketing') === 'on';
+      const utm = Object.fromEntries([...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_')));
+      const payload = {
+        business: String(data.get('business') ?? '').trim(),
+        city: String(data.get('city') ?? '').trim(),
+        service: String(data.get('service') ?? '').trim(),
+        email: String(data.get('email') ?? '').trim(),
+        marketing_consent: marketing,
+        // Keep the exact wording they agreed to, as a consent record.
+        marketing_consent_text: marketing ? form.dataset.consentText : '',
+        submitted_at: new Date().toISOString(),
+        page: location.origin + location.pathname,
+        ...utm,
+      };
+
+      button.disabled = true;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show(form.dataset.success!, true);
+        const detail = { name: 'scorecard_submitted', location: 'scorecard' };
+        window.dispatchEvent(new CustomEvent('gf:event', { detail }));
+        (window as any).gfTrack?.(detail.name, detail);
+      } catch {
+        show(form.dataset.error!, false);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,35 @@
+---
+/** Video slot. Renders nothing until video.enabled is true and video.id is set in src/content/site.ts. */
+import { video } from '../content/site';
+const show = video.enabled && Boolean(video.id);
+const embedSrc =
+  video.provider === 'youtube'
+    ? `https://www.youtube-nocookie.com/embed/${video.id}?rel=0`
+    : video.provider === 'vimeo'
+      ? `https://player.vimeo.com/video/${video.id}?dnt=1`
+      : '';
+---
+
+{
+  show && (
+    <div class="mt-14">
+      <h3 class="text-2xl font-bold">{video.heading}</h3>
+      <div class="mt-5 aspect-video w-full max-w-4xl overflow-hidden rounded-3xl bg-ink">
+        {video.provider === 'file' ? (
+          <video controls preload="none" poster={video.poster || undefined} class="h-full w-full" aria-label={video.title}>
+            <source src={video.id} />
+          </video>
+        ) : (
+          <iframe
+            src={embedSrc}
+            title={video.title}
+            loading="lazy"
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            referrerpolicy="strict-origin-when-cross-origin"
+            class="h-full w-full border-0"
+          />
+        )}
+      </div>
+    </div>
+  )
+}

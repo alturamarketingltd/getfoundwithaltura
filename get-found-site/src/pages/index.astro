@@ -1,0 +1,357 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Cta from '../components/Cta.astro';
+import MapMock from '../components/MapMock.astro';
+import Report from '../components/Report.astro';
+import Calculator from '../components/Calculator.astro';
+import Pricing from '../components/Pricing.astro';
+import Proof from '../components/Proof.astro';
+import Video from '../components/Video.astro';
+import Scorecard from '../components/Scorecard.astro';
+import {
+  site,
+  hero,
+  problem,
+  outcomes,
+  howItWorks,
+  report,
+  worthIt,
+  why,
+  pricing,
+  websiteBuild,
+  faq,
+  finalCta,
+  cta,
+  scorecard,
+  SCORECARD_FORM_ENDPOINT,
+  SUBSTACK_URL,
+  CONTACT_EMAIL,
+} from '../content/site';
+import { withUtm, ctaHref, ctaMode } from '../lib/cta';
+
+// Founder photo from src/assets, resized and converted at build time.
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/*.{jpg,jpeg,png,webp}', { eager: true });
+const founderPhoto = why.founder.photo ? photos[`../assets/${why.founder.photo}`]?.default : undefined;
+
+// Optional call link (booking). Hidden until a booking link or contact email exists.
+const callHref = ctaHref('hero-call');
+
+// The scorecard form shows once its endpoint is set (and always in dev, with a warning).
+const showScorecard = Boolean(SCORECARD_FORM_ENDPOINT) || import.meta.env.DEV;
+
+const businessId = `${site.url}/#business`;
+const areaServed = [
+  { '@type': 'Country', name: 'Canada' },
+  { '@type': 'Country', name: 'United States' },
+];
+const monthlyPrices = pricing.plans.flatMap((p) => [p.monthly.CAD, p.monthly.USD]);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': businessId,
+    name: `${site.name} by ${site.company}`,
+    alternateName: site.name,
+    legalName: site.company,
+    url: site.url,
+    description: site.description,
+    image: new URL(site.ogImage, site.url).toString(),
+    address: { '@type': 'PostalAddress', addressRegion: site.companyRegion, addressCountry: site.companyCountry },
+    areaServed,
+    priceRange: `$${Math.min(...monthlyPrices)} to $${Math.max(...monthlyPrices)} per month`,
+    sameAs: [SUBSTACK_URL],
+    ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${site.url}/#service`,
+    name: site.name,
+    serviceType: 'Local search and AI visibility service',
+    description: site.description,
+    url: site.url,
+    provider: { '@id': businessId },
+    areaServed,
+    offers: pricing.plans.flatMap((plan) =>
+      (['CAD', 'USD'] as const).map((cur) => ({
+        '@type': 'Offer',
+        name: `${plan.name} (${cur})`,
+        price: String(plan.monthly[cur]),
+        priceCurrency: cur,
+        description: plan.setupWaived
+          ? 'Billed monthly. Setup fee waived.'
+          : `Billed monthly. One-time setup fee of ${pricing.setup[cur]} ${cur}.`,
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: String(plan.monthly[cur]),
+          priceCurrency: cur,
+          unitCode: 'MON',
+          billingDuration: 'P1M',
+        },
+        eligibleRegion: { '@type': 'Country', name: cur === 'CAD' ? 'Canada' : 'United States' },
+        url: `${site.url}/#pricing`,
+      })),
+    ),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+
+const icons: Record<string, string> = {
+  pin: '<path d="M12 21s7-6.100 7-11.500A7 7 0 0 0 5 9.500C5 14.900 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/>',
+  spark: '<path d="M12 3l1.800 5.200L19 10l-5.200 1.800L12 17l-1.800-5.200L5 10l5.200-1.800L12 3z"/><path d="M19 16l.700 2.300L22 19l-2.300.700L19 22l-.700-2.300L16 19l2.300-.700L19 16z"/>',
+  star: '<path d="M12 3.500l2.600 5.400 5.900.800-4.300 4.100 1 5.900L12 16.900l-5.200 2.800 1-5.900L3.500 9.700l5.900-.800L12 3.500z"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="M8 12.300l2.700 2.700L16 9.500"/>',
+  page: '<path d="M7 3h7l4 4v14H7V3z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>',
+  mail: '<rect x="3" y="5.500" width="18" height="13" rx="2"/><path d="M3.500 7l8.500 6 8.500-6"/>',
+};
+---
+
+<Layout jsonLd={jsonLd}>
+  <!-- 1. Hero -->
+  <section class="on-dark bg-ink text-paper">
+    <div class="wrap grid items-center gap-12 pb-20 pt-8 md:pb-28 md:pt-14 lg:grid-cols-[1.35fr_0.85fr] lg:gap-14">
+      <div>
+        <h1 class="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem] lg:text-[3.6rem]">
+          {hero.headlineBefore}<span class="text-sun">{hero.headlineHighlight}</span>{hero.headlineAfter}
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-mist sm:text-xl">{hero.subhead}</p>
+        <div class="mt-9">
+          <Cta location="hero" />
+        </div>
+        <p class="mt-4 text-sm text-mist">{hero.reassurance}</p>
+        {callHref && showScorecard && (
+          <p class="mt-1 text-sm">
+            <a
+              href={callHref}
+              class="inline-block py-3 font-semibold text-paper underline underline-offset-4 hover:text-mist"
+              data-event="booking_cta_click"
+              data-location="hero-call"
+              rel={ctaMode === 'booking' ? 'noopener' : undefined}>{cta.callLabel}</a
+            >
+          </p>
+        )}
+      </div>
+      <MapMock />
+    </div>
+  </section>
+
+  <!-- 2. The problem -->
+  <section class="section on-light bg-paper text-ink" aria-labelledby="problem-h">
+    <div class="wrap">
+      <h2 id="problem-h" class="h2 max-w-3xl">{problem.heading}</h2>
+      <ol class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+        {
+          problem.points.map((point) => (
+            <li class="border-t-2 border-ink pt-5">
+              <h3 class="text-2xl font-bold">{point.title}</h3>
+              <p class="mt-3 text-lg leading-relaxed text-slate">{point.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3. What you get -->
+  <section id="what-you-get" class="section on-dark bg-ink text-paper" aria-labelledby="outcomes-h">
+    <div class="wrap">
+      <h2 id="outcomes-h" class="h2 max-w-3xl">{outcomes.heading}</h2>
+      <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          outcomes.cards.slice(0, 6).map((card) => (
+            <li class="rounded-3xl border border-ink-3 bg-ink-2 p-7">
+              <h3 class="flex items-start gap-3 text-xl font-bold leading-snug">
+                <svg viewBox="0 0 24 24" class="mt-0.5 h-6 w-6 shrink-0 text-mist" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[card.icon]} />
+                <span>{card.title}</span>
+              </h3>
+              <p class="mt-2 leading-relaxed text-mist">{card.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- How it works: a timeline in the same blue chapter -->
+      <div id="how-it-works" class="mt-24 scroll-mt-8">
+        <h2 id="how-h" class="h2 max-w-3xl">{howItWorks.heading}</h2>
+        <ol class="mt-12 ml-2 grid gap-10 border-l-2 border-ink-3 md:ml-0 md:grid-cols-3 md:gap-8 md:border-l-0 md:border-t-2">
+          {
+            howItWorks.steps.map((step, i) => (
+              <li class="relative pl-8 md:pl-0 md:pt-8">
+                <span class="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-paper ring-4 ring-ink md:-top-[9px] md:left-0" aria-hidden="true" />
+                <h3 class="text-2xl font-bold">
+                  <span class="text-mist">{i + 1}.</span> {step.title}
+                </h3>
+                <p class="mt-2 text-lg leading-relaxed text-mist">{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+        <Video />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Sample monthly report (same blue chapter, so it starts closer) -->
+  <section class="section on-dark bg-ink text-paper pt-0 md:pt-0" aria-labelledby="report-h">
+    <div class="wrap">
+      <h2 id="report-h" class="h2 max-w-3xl border-t border-ink-3 pt-16 md:pt-24">{report.heading}</h2>
+      <p class="mt-6 inline-block rounded-full border border-mist px-4 py-2 text-sm font-semibold text-mist">{report.label}</p>
+      <div class="mt-8">
+        <Report />
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Is it worth it? -->
+  <section class="section on-light bg-paper text-ink" aria-labelledby="worth-h">
+    <div class="wrap grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h2 id="worth-h" class="h2">{worthIt.heading}</h2>
+        <p class="mt-8 text-xl font-semibold leading-snug">{worthIt.anchor.text}</p>
+        <p class="mt-2 text-sm">
+          <a href={worthIt.anchor.sourceUrl} class="inline-block py-2 text-slate underline underline-offset-4 hover:text-ink" rel="noopener">{worthIt.anchor.sourceLabel}</a>
+        </p>
+        <p class="mt-6 text-xl font-semibold leading-snug">{worthIt.timeLine}</p>
+      </div>
+      <Calculator />
+    </div>
+  </section>
+
+  <!-- 7. Why Get Found -->
+  <section class="section on-dark bg-ink text-paper" aria-labelledby="why-h">
+    <div class="wrap">
+      <h2 id="why-h" class="h2 max-w-3xl">{why.heading}</h2>
+      <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+        {
+          why.points.map((point) => (
+            <li class="border-t-2 border-mist pt-5">
+              <h3 class="text-2xl font-bold">{point.title}</h3>
+              <p class="mt-3 text-lg leading-relaxed text-mist">{point.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <!-- Founder -->
+      <div class="mt-16 grid gap-8 rounded-3xl bg-ink-2 p-7 sm:p-10 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-10">
+        {founderPhoto && (
+          <div class="relative aspect-[4/5] overflow-hidden rounded-2xl sm:aspect-[3/2] md:aspect-auto">
+            <Picture
+              src={founderPhoto}
+              alt={why.founder.photoAlt}
+              formats={['avif', 'webp']}
+              widths={[300, 600]}
+              sizes="(min-width: 768px) 17rem, calc(100vw - 6rem)"
+              loading="lazy"
+              class="absolute inset-0 h-full w-full object-cover object-[50%_25%]"
+            />
+          </div>
+        )}
+        <div class:list={[!founderPhoto && 'md:col-span-2']}>
+          <p class="text-3xl font-bold tracking-tight">Hi, I'm {why.founder.name}.</p>
+          <p class="mt-1 text-mist">{why.founder.role}</p>
+          {why.founder.bio.map((line) => <p class="mt-4 max-w-2xl text-lg leading-relaxed">{line}</p>)}
+          <p class="mt-4 text-mist">{why.founder.location}</p>
+          <p class="mt-6 max-w-2xl text-mist">
+            {why.substack.text}{' '}
+            <a
+              href={withUtm(SUBSTACK_URL, 'why-get-found')}
+              class="inline-block py-2 font-semibold text-paper underline underline-offset-4 hover:text-mist"
+              data-event="substack_click"
+              data-location="why-get-found"
+              rel="noopener">{why.substack.linkLabel} <span aria-hidden="true">&rarr;</span></a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Proof (renders nothing until enabled with real items) -->
+  <Proof />
+
+  <!-- 9. Pricing -->
+  <section id="pricing" class="section on-light bg-paper text-ink" aria-labelledby="pricing-h">
+    <div class="wrap">
+      <h2 id="pricing-h" class="h2 mb-6 max-w-3xl">{pricing.heading}</h2>
+      <Pricing />
+
+      <!-- Website build add-on -->
+      <div
+        class="on-dark mt-16 grid items-center gap-8 rounded-3xl bg-ink p-8 text-paper sm:p-10 lg:grid-cols-[1fr_auto] lg:gap-12"
+        aria-labelledby="website-build-h"
+      >
+        <div>
+          <h3 id="website-build-h" class="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">{websiteBuild.heading}</h3>
+          <p class="mt-4 max-w-xl text-lg leading-relaxed text-mist">{websiteBuild.body}</p>
+        </div>
+        <div class="flex flex-col items-start gap-4">
+          <p class="rounded-full border border-mist px-4 py-1.5 text-sm font-semibold text-mist">{websiteBuild.priceNote}</p>
+          <Cta location="website-build" action="call" label={websiteBuild.ctaLabel} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. FAQ -->
+  <section id="faq" class="section on-dark bg-ink text-paper" aria-labelledby="faq-h">
+    <div class="wrap grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+      <div>
+        <h2 id="faq-h" class="h2">{faq.heading}</h2>
+      </div>
+      <div class="border-t border-ink-3">
+        {
+          faq.items.map((item) => (
+            <details class="group border-b border-ink-3">
+              <summary class="flex items-center justify-between gap-6 py-5 text-lg font-semibold sm:text-xl">
+                <span>{item.q}</span>
+                <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-ink-3 text-paper transition-transform duration-200 group-open:rotate-45" aria-hidden="true">
+                  <svg viewBox="0 0 16 16" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round"><path d="M8 2v12M2 8h12" /></svg>
+                </span>
+              </summary>
+              <p class="max-w-2xl pb-6 text-lg leading-relaxed text-mist">{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Final CTA -->
+  <section class="section on-light bg-paper text-ink" aria-labelledby="final-h">
+    <div class="wrap text-center">
+      <h2 id="final-h" class="mx-auto max-w-3xl text-5xl font-bold leading-none tracking-tight sm:text-7xl">
+        {finalCta.heading}
+      </h2>
+      {showScorecard ? (
+        <>
+          <p class="mx-auto mt-6 max-w-2xl text-xl text-slate">{scorecard.body}</p>
+          <div id="scorecard" class="mx-auto mt-9 max-w-2xl scroll-mt-24">
+            <Scorecard />
+          </div>
+          <p class="mt-10 text-lg font-semibold">{scorecard.orBook}</p>
+          <div class="mt-4 flex justify-center">
+            <Cta location="final" surface="light" variant="outline" action="call" label={cta.callButton} />
+          </div>
+        </>
+      ) : (
+        <>
+          <p class="mx-auto mt-6 max-w-xl text-xl text-slate">{finalCta.body}</p>
+          <div class="mt-9 flex justify-center">
+            <Cta location="final" surface="light" />
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,83 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site, CONTACT_EMAIL } from '../content/site';
+const contact = CONTACT_EMAIL || '[contact email to be added before launch]';
+---
+
+<Legal
+  title={`Website terms | ${site.name}`}
+  description={`The terms for using the ${site.name} website, a service by ${site.company}.`}
+  heading="Website terms"
+>
+  <p>
+    This website is run by {site.company} ("we", "us"), based in British Columbia, Canada. By using this website, you agree
+    to these terms. If you do not agree, please do not use the website.
+  </p>
+
+  <h2>About this website</h2>
+  <p>
+    This website describes {site.name}, a monthly service we offer. The information here is general. It is not professional
+    advice for your specific business.
+  </p>
+
+  <h2>These terms are not your service agreement</h2>
+  <p>
+    These terms cover the use of this website only. If you become a client, the service itself is covered by a separate
+    written agreement between you and us. If that agreement and this website ever disagree, the agreement applies.
+  </p>
+
+  <h2>Prices</h2>
+  <p>
+    Prices shown on this website are in Canadian or US dollars as marked, do not include applicable taxes, and can change.
+    The price that applies to you is the one confirmed in your service agreement.
+  </p>
+  <p>
+    Our 6- and 12-month plans are billed monthly. If you end one early, you pay the difference between the month-to-month
+    price and your plan's price for the months you received. A setup fee that was waived stays waived. Your service agreement sets out the exact terms.
+  </p>
+
+  <h2>No promise of results</h2>
+  <p>
+    We do not promise search rankings, a number of new clients, or that any search or AI tool will show or recommend your
+    business. Sample reports and calculators on this website are illustrations only. The calculator gives a rough estimate
+    based on the numbers you enter.
+  </p>
+
+  <h2>Our content</h2>
+  <p>
+    The text, design and graphics on this website belong to {site.company} unless marked otherwise. You are welcome to view
+    and share links to the website. Please do not copy or republish our content without asking first.
+  </p>
+
+  <h2>Links to other websites</h2>
+  <p>
+    This website links to other websites, such as our booking tool and our newsletter. We do not control those websites and
+    are not responsible for their content or how they handle your information.
+  </p>
+
+  <h2>Names of other companies</h2>
+  <p>
+    Names such as Google, ChatGPT, Apple Maps, Bing, Yelp and Facebook belong to their owners. We are not affiliated with,
+    endorsed by or sponsored by them.
+  </p>
+
+  <h2>Availability and liability</h2>
+  <p>
+    We work to keep this website accurate and available, but we provide it as is, without warranties of any kind. To the
+    extent the law allows, we are not liable for any loss that comes from using or relying on this website.
+  </p>
+
+  <h2>Governing law</h2>
+  <p>
+    These terms are governed by the laws of British Columbia and the federal laws of Canada that apply there.
+  </p>
+
+  <h2>Changes</h2>
+  <p>We may update these terms. The current version is always on this page, with the date at the top.</p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms? Contact us:
+    {CONTACT_EMAIL ? <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> : <strong>{contact}</strong>}.
+  </p>
+</Legal>

@@ -1,0 +1,222 @@
+---
+import '../styles/global.css';
+import bodyFont from '../assets/fonts/hanken-grotesk-latin.woff2?url';
+import { site, nav, cta, footer, pricing, ANALYTICS, CONTACT_EMAIL, SUBSTACK_URL } from '../content/site';
+import { withUtm } from '../lib/cta';
+import Cta from '../components/Cta.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** JSON-LD objects to output in the head. */
+  jsonLd?: Record<string, unknown>[];
+}
+
+const { title = site.title, description = site.description, jsonLd = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).toString();
+const ogImage = new URL(site.ogImage, site.url).toString();
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-CA" data-currency={pricing.defaultCurrency}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#002fa7" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={site.ogImageAlt} />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={site.ogImageAlt} />
+
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+
+    <!-- Apply the saved currency before first paint so prices never flash. -->
+    <script is:inline>
+      try {
+        var c = localStorage.getItem('gf-currency');
+        if (c === 'CAD' || c === 'USD') document.documentElement.dataset.currency = c;
+        else {
+          // No saved choice: guess from the time zone. Canadian zones keep CAD, other North American zones get USD.
+          var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+          var ca = /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|St_Johns|Regina|Montreal|Moncton|Glace_Bay|Goose_Bay|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Resolute|Cambridge_Bay|Atikokan|Swift_Current|Thunder_Bay|Nipigon|Rainy_River|Pangnirtung)$/;
+          if (/^(America\/|Pacific\/Honolulu)/.test(tz) && !ca.test(tz)) document.documentElement.dataset.currency = 'USD';
+        }
+      } catch (e) {}
+    </script>
+
+    <!-- ANALYTICS slot: off until ANALYTICS.enabled is true in src/content/site.ts -->
+    {
+      ANALYTICS.enabled && ANALYTICS.provider === 'cloudflare' && ANALYTICS.token && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: ANALYTICS.token })}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-sun focus:px-5 focus:py-3 focus:font-semibold focus:text-ink"
+      >Skip to content</a
+    >
+
+    <header class="on-dark bg-ink text-paper">
+      <div class="wrap flex items-center justify-between gap-4 py-5">
+        <a href="/" class="shrink-0 whitespace-nowrap font-display text-xl font-extrabold tracking-tight sm:text-2xl" aria-label={`${site.name} home`}>
+          Get Found<span class="text-sun" aria-hidden="true">.</span>
+        </a>
+        <nav aria-label="Main" class="flex items-center gap-1 sm:gap-2">
+          <ul class="hidden items-center md:flex">
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} class="rounded-full px-4 py-3 text-sm font-medium text-paper hover:text-mist">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <Cta location="header" size="sm" label={cta.shortLabel} />
+          <details class="group relative md:hidden">
+            <summary class="grid h-11 w-11 place-items-center rounded-full border border-ink-3" aria-label="Menu">
+              <svg viewBox="0 0 20 20" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" class="group-open:hidden" /><path d="M5 5l10 10M15 5L5 15" class="hidden group-open:block" /></svg>
+            </summary>
+            <ul class="absolute right-0 top-14 z-40 w-56 rounded-2xl bg-ink-2 p-2 shadow-xl ring-1 ring-ink-3">
+              {
+                nav.map((item) => (
+                  <li>
+                    <a href={item.href} class="block rounded-xl px-4 py-3 font-medium text-paper hover:bg-ink">{item.label}</a>
+                  </li>
+                ))
+              }
+            </ul>
+          </details>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="on-dark border-t border-ink-3 bg-ink text-paper">
+      <div class="wrap flex flex-col gap-8 py-12 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="font-display text-2xl font-extrabold tracking-tight">
+            Get Found<span class="text-sun" aria-hidden="true">.</span>
+          </p>
+          <p class="mt-3 text-mist">{site.footerLine}</p>
+          <p class="mt-1 text-sm text-mist">&copy; {year} {site.company}</p>
+        </div>
+        <ul class="flex flex-wrap gap-x-6 gap-y-1 text-sm font-medium">
+          {
+            CONTACT_EMAIL ? (
+              <li>
+                <a href={`mailto:${CONTACT_EMAIL}`} class="inline-block py-3 underline underline-offset-4 hover:text-mist">
+                  {CONTACT_EMAIL}
+                </a>
+              </li>
+            ) : (
+              import.meta.env.DEV && <li class="py-3 text-[#ffd166]">{footer.emailComingSoon}</li>
+            )
+          }
+          <li>
+            <a
+              href={withUtm(SUBSTACK_URL, 'footer')}
+              class="inline-block py-3 underline underline-offset-4 hover:text-mist"
+              data-event="substack_click"
+              data-location="footer"
+              rel="noopener">{footer.newsletterLabel}</a
+            >
+          </li>
+          <li><a href="/privacy" class="inline-block py-3 underline underline-offset-4 hover:text-mist">{footer.privacyLabel}</a></li>
+          <li><a href="/terms" class="inline-block py-3 underline underline-offset-4 hover:text-mist">{footer.termsLabel}</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      // --- Click events -------------------------------------------------
+      // Any element with data-event fires a "gf:event" browser event and calls
+      // window.gfTrack(name, detail) if an analytics tool has defined it.
+      document.addEventListener('click', (e) => {
+        const el = (e.target as Element | null)?.closest<HTMLElement>('[data-event]');
+        if (!el) return;
+        const detail = { name: el.dataset.event!, location: el.dataset.location ?? '' };
+        window.dispatchEvent(new CustomEvent('gf:event', { detail }));
+        (window as any).gfTrack?.(detail.name, detail);
+      });
+
+      // --- UTM pass-through ----------------------------------------------
+      // Visitors who arrive with utm_* parameters carry them to the booking tool.
+      const incoming = [...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_'));
+      if (incoming.length) {
+        document.querySelectorAll<HTMLAnchorElement>('a[data-event="booking_cta_click"][href^="http"]').forEach((a) => {
+          const u = new URL(a.href);
+          incoming.forEach(([k, v]) => u.searchParams.set(k, v));
+          a.href = u.toString();
+        });
+      }
+
+      // --- Mobile menu ----------------------------------------------------
+      // <details> works without JS; this adds what a menu should do: close after a link
+      // is picked, on Escape (focus back on the button), and on a tap outside it.
+      const menu = document.querySelector<HTMLDetailsElement>('header details');
+      if (menu) {
+        const close = (refocus = false) => {
+          if (!menu.open) return;
+          menu.open = false;
+          if (refocus) menu.querySelector('summary')?.focus();
+        };
+        menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => close()));
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') close(true);
+        });
+        document.addEventListener('pointerdown', (e) => {
+          if (!menu.contains(e.target as Node)) close();
+        });
+      }
+
+      // --- Currency toggle -------------------------------------------------
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-currency-btn]');
+      const sync = () => {
+        const current = document.documentElement.dataset.currency;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.currencyBtn === current)));
+      };
+      buttons.forEach((b) =>
+        b.addEventListener('click', () => {
+          const next = b.dataset.currencyBtn!;
+          document.documentElement.dataset.currency = next;
+          try {
+            localStorage.setItem('gf-currency', next);
+          } catch (e) {}
+          sync();
+          window.dispatchEvent(new CustomEvent('gf:currency', { detail: next }));
+        }),
+      );
+      sync();
+    </script>
+  </body>
+</html>

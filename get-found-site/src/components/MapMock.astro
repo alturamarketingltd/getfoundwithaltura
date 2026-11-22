@@ -1,0 +1,67 @@
+---
+import { hero } from '../content/site';
+const { mock } = hero;
+const letters = ['A', 'B', 'C'];
+---
+
+<figure class="relative mx-auto w-full max-w-md lg:max-w-none">
+  <div role="img" aria-label={mock.alt} class="rounded-3xl border border-ink-3 bg-ink-2 p-3 shadow-2xl shadow-black/40 sm:p-4">
+    <div aria-hidden="true">
+      <!-- Search bar -->
+      <div class="flex items-center gap-3 rounded-full bg-paper px-4 py-3 text-ink">
+        <svg viewBox="0 0 20 20" class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="9" r="6" /><path d="m14 14 4 4" /></svg>
+        <span class="text-sm font-medium">{mock.query}</span>
+      </div>
+
+      <!-- Stylized map -->
+      <svg viewBox="0 0 400 190" class="mt-3 block w-full rounded-2xl" width="400" height="190" preserveAspectRatio="xMidYMid slice">
+        <rect width="400" height="190" class="fill-map-land" />
+        <path d="M-10 150 C 80 120, 140 175, 230 140 S 360 110, 420 135 L 420 200 L -10 200 Z" class="fill-map-water" />
+        <rect x="262" y="18" width="92" height="58" rx="10" class="fill-map-block" />
+        <g class="stroke-map-road" stroke-width="10" stroke-linecap="round" fill="none">
+          <path d="M-10 60 L 420 92" />
+          <path d="M70 -10 L 110 200" />
+          <path d="M215 -10 L 240 200" />
+          <path d="M-10 128 L 200 112 L 420 40" />
+        </g>
+        <g class="stroke-map-lane" stroke-width="2" stroke-dasharray="6 8" fill="none">
+          <path d="M-10 60 L 420 92" />
+          <path d="M215 -10 L 240 200" />
+        </g>
+        <!-- Competitor pins -->
+        <g font-family="Hanken Grotesk, system-ui, sans-serif" font-size="12" font-weight="700" text-anchor="middle">
+          <g transform="translate(96 62)"><path d="M0 22c8-9 12-15 12-21A12 12 0 0 0-12 1c0 6 4 12 12 21z" class="fill-paper" /><text y="5" class="fill-ink">A</text></g>
+          <g transform="translate(232 104)"><path d="M0 22c8-9 12-15 12-21A12 12 0 0 0-12 1c0 6 4 12 12 21z" class="fill-paper" /><text y="5" class="fill-ink">B</text></g>
+          <g transform="translate(318 44)"><path d="M0 22c8-9 12-15 12-21A12 12 0 0 0-12 1c0 6 4 12 12 21z" class="fill-paper" /><text y="5" class="fill-ink">C</text></g>
+          <!-- Your business: missing -->
+          <g transform="translate(158 128)">
+            <circle r="17" fill="none" class="stroke-sun" stroke-width="2.5" stroke-dasharray="5 5" />
+            <text y="5" class="fill-sun" font-size="15">?</text>
+          </g>
+        </g>
+      </svg>
+
+      <!-- Result list -->
+      <ul class="mt-3 space-y-2">
+        {
+          mock.results.map((r, i) => (
+            <li class="flex items-center gap-3 rounded-2xl bg-ink px-4 py-3">
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-paper text-xs font-bold text-ink">{letters[i]}</span>
+              <span class="min-w-0 flex-1">
+                <span class="block truncate text-sm font-semibold text-paper">{r.name}</span>
+                <span class="block text-xs text-mist">
+                  {r.rating} <span class="text-mist">★</span> ({r.reviews}) · {r.note}
+                </span>
+              </span>
+            </li>
+          ))
+        }
+        <li class="flex items-center gap-3 rounded-2xl border-2 border-dashed border-sun px-4 py-3">
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 border-dashed border-sun text-xs font-bold text-sun">?</span>
+          <span class="min-w-0 flex-1 text-sm font-semibold text-paper">{mock.missing.name}</span>
+          <span class="shrink-0 rounded-full bg-sun px-2.5 py-1 text-xs font-bold text-ink">{mock.missing.note}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</figure>

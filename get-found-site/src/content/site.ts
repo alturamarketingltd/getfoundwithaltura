@@ -1,0 +1,494 @@
+/**
+ * Get Found: all editable site content lives in this file.
+ * Change copy, prices, FAQs and flags here. No layout edits needed.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Launch settings (PRE-LAUNCH BLOCKERS: see README)                    */
+/* ------------------------------------------------------------------ */
+
+/** Booking link for the free visibility check. Leave '' until it exists. */
+export const BOOKING_URL = '';
+
+/** Contact email. Leave '' until it exists. Used for the CTA fallback and the footer. */
+export const CONTACT_EMAIL = '';
+
+/**
+ * Where the scorecard request form sends its data (a JSON POST).
+ * Leave '' until the form backend exists: the form is then hidden on the live site.
+ * Must be an https URL you control (your email tool, CRM or a server function).
+ */
+export const SCORECARD_FORM_ENDPOINT = '';
+
+/** Subject line used when CTAs fall back to a mailto: link. */
+export const CTA_EMAIL_SUBJECT = 'Free visibility check';
+
+export const SUBSTACK_URL = 'https://substack.com/@nathanielaltura';
+
+/**
+ * Analytics slot. Off by default.
+ * provider 'cloudflare' loads Cloudflare Web Analytics (cookieless) with the token below.
+ */
+export const ANALYTICS = {
+  enabled: false,
+  provider: 'cloudflare' as 'cloudflare',
+  token: '',
+};
+
+/* ------------------------------------------------------------------ */
+/* Brand and SEO                                                        */
+/* ------------------------------------------------------------------ */
+
+export const site = {
+  name: 'Get Found',
+  url: 'https://getfoundwithaltura.com',
+  company: 'Altura Marketing LTD',
+  companyRegion: 'BC',
+  companyCountry: 'CA',
+  footerLine: 'Get Found is a service by Altura Marketing LTD.',
+  title: 'Get Found | Show up on Google Maps and in AI tools',
+  description:
+    'Get Found is a monthly service that gives health and fitness businesses across North America better visibility on Google Maps and in AI tools like ChatGPT, with a short report every month showing what changed.',
+  ogImage: '/og.png',
+  ogImageAlt: 'Get Found: show up on Google Maps and in AI tools.',
+};
+
+export const nav = [
+  { label: 'How it works', href: '/#how-it-works' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'FAQ', href: '/#faq' },
+];
+
+export const cta = {
+  label: 'Get your free visibility check',
+  shortLabel: 'Free visibility check',
+  /** The optional call, offered as a secondary link. */
+  callLabel: 'Questions first? Book a 15-minute call',
+  callButton: 'Book a 15-minute call',
+  comingSoon: 'Coming soon: set BOOKING_URL or CONTACT_EMAIL in src/content/site.ts',
+};
+
+/* ------------------------------------------------------------------ */
+/* 1. Hero                                                              */
+/* ------------------------------------------------------------------ */
+
+export const hero = {
+  // The highlighted part of the headline is wrapped in the accent colour.
+  headlineBefore: 'When someone nearby searches for what you do, do they ',
+  headlineHighlight: 'find you',
+  headlineAfter: ', or the place down the street?',
+  subhead:
+    'Better visibility on Google Maps and in AI tools like ChatGPT for clinics, studios and gyms, with a short report every month showing what changed.',
+  reassurance: 'Free. Emailed within one business day.',
+  mock: {
+    alt: 'Illustration of map search results for "physio near me". Three nearby businesses are listed. Your business is not showing.',
+    query: 'physio near me',
+    results: [
+      { name: 'The clinic down the street', rating: '4.8', reviews: '212', note: 'Open now' },
+      { name: 'Another clinic nearby', rating: '4.7', reviews: '148', note: 'Open now' },
+      { name: 'A studio two blocks away', rating: '4.6', reviews: '96', note: 'Closes soon' },
+    ],
+    missing: { name: 'Your business', note: 'Not showing' },
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* 2. The problem                                                       */
+/* ------------------------------------------------------------------ */
+
+export const problem = {
+  eyebrow: 'The problem',
+  heading: 'Being good at what you do only helps if people can find you.',
+  points: [
+    {
+      title: 'The map comes first',
+      body: "Map results sit above everything else. That's where people check reviews, get directions and book.",
+    },
+    {
+      title: 'People now ask AI',
+      body: "More people now ask ChatGPT and Google's AI for recommendations. Those tools pull from your profile, reviews, listings and website.",
+    },
+    {
+      title: 'Nobody has time for it',
+      body: "Most practitioners and studio owners don't have time to manage any of it.",
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ */
+/* 3. What you get (6 cards max)                                        */
+/* ------------------------------------------------------------------ */
+
+export const outcomes = {
+  eyebrow: 'What you get',
+  heading: 'More ways to be found. No extra work for you.',
+  cards: [
+    {
+      icon: 'pin',
+      title: 'Better visibility on Google Maps',
+      body: 'We keep your Google profile complete, current and active, so more people nearby find you, call and book.',
+    },
+    {
+      icon: 'spark',
+      title: 'Better visibility on AI tools',
+      body: 'We keep the details AI tools draw on accurate and current, and check every month whether you show up in ChatGPT and Google AI answers.',
+    },
+    {
+      icon: 'star',
+      title: 'More reviews, asked for automatically',
+      body: 'Clients get a simple, polite request after a visit.',
+    },
+    {
+      icon: 'check',
+      title: 'Correct details everywhere',
+      body: 'Your name, address, phone and hours, correct on Apple Maps, Bing, Yelp, Facebook and the directories people actually use.',
+    },
+    {
+      icon: 'page',
+      title: 'A website that keeps improving',
+      body: 'A new blog post every month answering a real local question.',
+    },
+    {
+      icon: 'mail',
+      title: 'A short report every month',
+      body: 'How many people called and asked for directions, what we did, and what changed. In plain language.',
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ */
+/* 4. How it works + video slot                                         */
+/* ------------------------------------------------------------------ */
+
+export const howItWorks = {
+  eyebrow: 'How it works',
+  heading: 'Three steps. We do almost all of it.',
+  steps: [
+    {
+      title: 'Free visibility check',
+      body: 'See where you show up today, on Google Maps and in AI tools.',
+    },
+    {
+      title: 'Setup in about 2 weeks',
+      body: 'We do it all.',
+    },
+    {
+      title: 'Ongoing',
+      body: 'We do the work. You read a short report.',
+    },
+  ],
+};
+
+/** Video slot under "How it works". Hidden until enabled. */
+export const video = {
+  enabled: false,
+  heading: 'See how it works in 2 minutes',
+  provider: 'youtube' as 'youtube' | 'vimeo' | 'file',
+  /** YouTube or Vimeo video ID, or a file path such as '/video/get-found.mp4' when provider is 'file'. */
+  id: '',
+  /** Required for accessibility: describes the video. */
+  title: 'How Get Found works',
+  /** Optional poster image path for self-hosted video. */
+  poster: '',
+};
+
+/* ------------------------------------------------------------------ */
+/* 5. Sample monthly report (illustrative numbers only)                 */
+/* ------------------------------------------------------------------ */
+
+export const report = {
+  eyebrow: 'The monthly report',
+  heading: 'Every month, you see exactly what changed.',
+  label: 'Sample report. Numbers are illustrative.',
+  email: {
+    from: 'Get Found',
+    subject: 'Your October report',
+    greeting: 'Hi there,',
+    lines: [
+      '38 people called you from Google and 54 asked for directions, up from 33 and 45 in September.',
+      '6 new reviews came in. You showed up in 4 of the 10 AI questions we track, up from 2.',
+      'Next month: a new blog post and fresh photos on your profile.',
+    ],
+    signoff: 'Full report attached.',
+  },
+  page: {
+    title: 'Monthly report',
+    period: 'October',
+    business: 'Your business name',
+    metrics: [
+      { label: 'Calls', value: '38', change: 'Up 5 from last month' },
+      { label: 'Direction requests', value: '54', change: 'Up 9 from last month' },
+      { label: 'New reviews', value: '6', change: '87 in total' },
+      { label: 'Google profile views', value: '1,240', change: 'Up 18% from last month' },
+    ],
+    ai: {
+      label: 'AI visibility',
+      value: '4 of 10',
+      detail: 'tracked questions where you showed up (2 last month)',
+    },
+    builtLabel: 'Built so far',
+    built: [
+      { value: '5', label: 'blog posts published' },
+      { value: '42', label: 'directory listings corrected' },
+      { value: '31', label: 'new reviews since we started' },
+    ],
+    planLabel: "Next month's plan",
+    plan: [
+      'New blog post answering a local question',
+      'Fresh photos on your Google profile',
+      'Review requests for recent clients',
+    ],
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* 6. Is it worth it? (ROI calculator)                                  */
+/* ------------------------------------------------------------------ */
+
+export const worthIt = {
+  eyebrow: 'Is it worth it?',
+  heading: 'Do the math on one new client.',
+  calculator: {
+    feeLabel: 'What a client pays per visit or per month',
+    visitsLabel: 'Visits, or months they stay',
+    defaultFee: 100,
+    defaultVisits: 6,
+    /** Which plan the calculator compares against (plan id from pricing.plans). */
+    comparePlanId: '12-month',
+    compareNote: 'Compared with the 12-month price of',
+    /** Below this per-visit or monthly value, the calculator says Get Found is not the right fit. */
+    minFee: 70,
+    belowMinNote: 'Get Found is built for businesses where a visit or a monthly membership is $70 or more.',
+  },
+  anchor: {
+    // SOURCE CHECK NEEDED before launch: confirm this figure against the linked page.
+    text: 'Local SEO retainers average around US$1,500 a month.',
+    sourceLabel: 'Source: Ahrefs pricing survey',
+    sourceUrl: 'https://ahrefs.com/blog/seo-pricing',
+  },
+  timeLine: 'Under 10 minutes a month from you.',
+};
+
+/* ------------------------------------------------------------------ */
+/* 7. Why Get Found                                                     */
+/* ------------------------------------------------------------------ */
+
+export const why = {
+  eyebrow: 'Why Get Found',
+  heading: 'Built so you can check our work and leave anytime.',
+  points: [
+    {
+      title: 'You own everything',
+      body: 'Your Google profile, listings, domain and content. We only have manager access. No hostage-taking.',
+    },
+    {
+      title: 'Built for practitioners',
+      body: 'We follow the advertising rules of your professional college or licensing board and never touch patient or client health information.',
+    },
+    {
+      title: 'No ranking promises',
+      body: 'You see exactly what we did and what changed.',
+    },
+  ],
+  substack: {
+    text: 'I write about marketing in health and fitness for business owners and marketers.',
+    linkLabel: 'Read it on Substack',
+  },
+  /**
+   * Founder block. DRAFT bio: confirm the wording and add a photo before launch.
+   * photo: a file name in src/assets, e.g. 'founder.jpg' (served as AVIF/WebP at the right size). Left empty, no photo is shown.
+   */
+  founder: {
+    name: 'Nathaniel',
+    role: 'Founder, Get Found',
+    photo: 'founder.jpg',
+    photoAlt: 'Nathaniel, founder of Get Found',
+    bio: [
+      "For over 7 years I've marketed health and fitness from every side: clinics and gyms, supplement brands, and the companies that make clinic equipment.",
+      "Get Found is the service I'd want if I ran a clinic, studio or gym: the work done for you, nothing you don't own, and a plain report every month so you can check it.",
+    ],
+    location: 'Based in BC. Working with businesses across Canada and the US.',
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* 8. Proof (hidden until real)                                         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Keep enabled: false until you have real, approved testimonials.
+ * Never add placeholder or invented quotes, names, logos or results.
+ */
+export const proof = {
+  enabled: false,
+  eyebrow: 'Results',
+  heading: 'What clients say',
+  items: [] as { quote: string; name: string; role?: string; business?: string }[],
+};
+
+/* ------------------------------------------------------------------ */
+/* 9. Pricing                                                           */
+/* ------------------------------------------------------------------ */
+
+export type Currency = 'CAD' | 'USD';
+
+export const pricing = {
+  eyebrow: 'Pricing',
+  heading: 'One service. Three ways to pay.',
+  intro: 'Billed monthly. Everything is included in every option.',
+  defaultCurrency: 'CAD' as Currency,
+  setup: { CAD: 500, USD: 350 },
+  plans: [
+    {
+      id: '12-month',
+      name: '12-month plan',
+      monthly: { CAD: 295, USD: 210 },
+      setupWaived: true,
+      badge: 'Most popular',
+    },
+    {
+      id: '6-month',
+      name: '6-month plan',
+      monthly: { CAD: 365, USD: 260 },
+      setupWaived: false,
+      badge: '',
+    },
+    {
+      id: 'monthly',
+      name: 'Month-to-month',
+      monthly: { CAD: 420, USD: 300 },
+      setupWaived: false,
+      badge: '',
+    },
+  ],
+  setupWaivedLabel: 'Setup waived',
+  setupLine: 'Setup: $500 CAD / $350 USD, waived on the 12-month plan.',
+  taxNote: 'Canadian clients: plus GST.',
+  /** Early exit from a 6- or 12-month plan: pay back the discount for the months used. The example is worked out from the plan prices. */
+  earlyExit: {
+    heading: 'Leaving a 6- or 12-month plan early?',
+    body: "You pay back the difference between the month-to-month price and your plan's price for the months you've had. That's it: a waived setup fee stays waived.",
+    exampleMonths: 4,
+  },
+  includedLabel: 'Included in every option',
+  includedLine: 'Everything under "More ways to be found" is included in every option.',
+  included: [
+    'Google Maps profile kept complete and active',
+    'AI visibility tracked every month',
+    'Automatic review requests',
+    'Your details corrected across listings',
+    'A new blog post every month',
+    'A 3-line email and one-page report every month',
+  ],
+};
+
+/** Website build add-on, shown as a short card under pricing. No separate price. */
+export const websiteBuild = {
+  eyebrow: 'Need a website?',
+  heading: 'Website holding you back?',
+  body: "We'll build you a new one. Your site then runs on Get Found, with hosting and updates included.",
+  priceNote: 'Quoted on your call',
+  ctaLabel: 'Ask about a new site',
+};
+
+/* ------------------------------------------------------------------ */
+/* 10. FAQ (also output as FAQPage structured data)                     */
+/* ------------------------------------------------------------------ */
+
+export const faq = {
+  eyebrow: 'FAQ',
+  heading: 'Questions owners ask us',
+  items: [
+    {
+      q: 'Who is Get Found for?',
+      a: 'Health and fitness businesses across Canada and the US, like clinics, studios and gyms, where a single visit or a monthly membership is $70 or more.',
+    },
+    {
+      q: 'Do you guarantee rankings?',
+      a: 'No. Nobody honest can. We show you exactly what changed.',
+    },
+    {
+      q: 'How much of my time does this take?',
+      a: 'About 20 minutes to start, then under 10 minutes a month.',
+    },
+    {
+      q: 'Do I need a new website?',
+      a: 'No. We work with your existing site, or host and update one we build for you (priced separately).',
+    },
+    {
+      q: 'Do you work with businesses in the US?',
+      a: 'Yes, across Canada and the US. Pricing is shown in both currencies.',
+    },
+    {
+      q: 'Who owns my Google profile?',
+      a: "You do. We're added as managers and you can remove us anytime.",
+    },
+    {
+      q: "What about my clients' privacy?",
+      a: 'We never see or store client or health information. We only work with your public business details.',
+    },
+    {
+      q: 'Can I cancel?',
+      a: "Yes. Month-to-month can stop anytime. On a 6- or 12-month plan you can still leave early: you pay back the difference between the month-to-month price and your plan's price for the months you've had.",
+    },
+    {
+      q: 'Which AI tools do you track?',
+      a: 'ChatGPT, Google AI Overviews and Google AI Mode.',
+    },
+  ],
+};
+
+/* ------------------------------------------------------------------ */
+/* 11. Final CTA                                                        */
+/* ------------------------------------------------------------------ */
+
+export const finalCta = {
+  heading: 'See where you stand.',
+  body: 'Get a free one-page scorecard: where you show up for five local searches, how you compare with three nearby competitors, and whether ChatGPT mentions you.',
+};
+
+/**
+ * Scorecard request form (lead magnet). Shown in the final section once
+ * SCORECARD_FORM_ENDPOINT is set. Only promise a turnaround you can keep.
+ */
+export const scorecard = {
+  body: "Tell us where you are and we'll email your free one-page scorecard within one business day. It shows where you appear for five local searches, how you compare with three nearby competitors, and whether ChatGPT mentions you.",
+  orBook: 'Questions first?',
+  notLive: 'Not live yet: set SCORECARD_FORM_ENDPOINT in src/content/site.ts',
+  form: {
+    businessLabel: 'Business name',
+    cityLabel: 'City or neighbourhood',
+    cityPlaceholder: 'Austin, TX',
+    serviceLabel: 'What you do',
+    servicePlaceholder: 'Pilates studio',
+    emailLabel: 'Email',
+    // Marketing consent wording. Optional, unticked by default. Stored with each submission.
+    optIn:
+      'Yes, also email me marketing tips and offers from Get Found (Altura Marketing LTD). I can unsubscribe at any time.',
+    submit: 'Send me my scorecard',
+    finePrint: 'We use these details to prepare and email your scorecard. No health or client information needed.',
+    privacyLabel: 'Privacy policy',
+    success: "Thanks. Your scorecard is on its way: look for an email from us within one business day.",
+    error: 'Sorry, that did not send. Please try again in a moment.',
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* 12. Footer                                                           */
+/* ------------------------------------------------------------------ */
+
+export const footer = {
+  newsletterLabel: 'Newsletter',
+  privacyLabel: 'Privacy',
+  termsLabel: 'Terms',
+  emailComingSoon: 'Contact email coming soon',
+};
+
+/* ------------------------------------------------------------------ */
+/* Legal pages                                                          */
+/* ------------------------------------------------------------------ */
+
+export const legal = {
+  draftNotice: 'Draft, review before publishing.',
+  lastUpdated: 'November 2026',
+};

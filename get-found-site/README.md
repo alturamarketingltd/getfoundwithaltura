@@ -1,0 +1,125 @@
+# Get Found website
+
+Marketing site for Get Found, a service by Altura Marketing LTD. Astro + Tailwind CSS, fully static, hosted on Cloudflare Pages at getfoundwithaltura.com.
+
+## Pre-launch blockers
+
+Do not launch until every item is done.
+
+1. **`BOOKING_URL` and `CONTACT_EMAIL` are empty** in `src/content/site.ts`. While both are empty, every booking button is disabled and the build prints a warning. With only `CONTACT_EMAIL` set, buttons fall back to a `mailto:` link with the subject "Free visibility check".
+2. **Privacy and terms pages are drafts.** Both are marked "Draft, review before publishing". Have them reviewed, then remove the notice line near the top of `src/layouts/Legal.astro`.
+3. **Confirm the price anchor.** `worthIt.anchor.text` says "around US$1,500 a month". Check the figure against the linked source page before launch and adjust the wording to match what the page actually says.
+4. **Scorecard form has no backend.** `SCORECARD_FORM_ENDPOINT` in `src/content/site.ts` is empty. The free visibility check (this form) is the site's main action: every main button points to it once the endpoint is set. Until then the form is hidden on the live site (it shows in dev with a warning) and the main buttons fall back to the booking link. Set it to an https endpoint that accepts a JSON POST with `business`, `city`, `service`, `email`, `marketing_consent`, `marketing_consent_text`, `submitted_at`, `page` and any `utm_*` values. The endpoint must validate input, rate-limit, and only add people to marketing lists when `marketing_consent` is true. The form's honeypot and timing check stop only the laziest bots.
+5. **Analytics is off.** Set `ANALYTICS` in `src/content/site.ts` when you have a token. See "Analytics and events" below.
+
+## Run it locally
+
+Needs Node 20 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:4321. In dev, disabled buttons show a yellow "coming soon" note.
+
+Production build and local preview:
+
+```bash
+npm run build
+npm run preview
+```
+
+The build output is in `dist/`.
+
+## Editing content
+
+Everything editable is in **`src/content/site.ts`**: copy for every section, prices in CAD and USD, setup fees, FAQs, the booking link, contact email, Substack link, analytics settings and feature flags.
+
+| What | Where in `site.ts` |
+|---|---|
+| Booking link, contact email | `BOOKING_URL`, `CONTACT_EMAIL` |
+| Prices, setup fees, plan badge, tax note | `pricing` |
+| FAQ questions (also feed the FAQ structured data) | `faq.items` |
+| Testimonials (hidden) | `proof.enabled` plus real entries in `proof.items` |
+| Video under "How it works" (hidden) | `video.enabled` plus `video.id` |
+| ROI calculator defaults | `worthIt.calculator` |
+| Sample report numbers | `report` |
+
+Colours and fonts are tokens at the top of `src/styles/global.css`.
+
+Rules for testimonials: only real, approved quotes. The section renders nothing unless `proof.enabled` is `true` and `proof.items` has at least one entry.
+
+## Deploy to Cloudflare Pages
+
+1. Push this folder to a GitHub or GitLab repository.
+2. In the Cloudflare dashboard go to **Workers & Pages → Create → Pages → Connect to Git** and pick the repository.
+3. Build settings:
+
+   | Setting | Value |
+   |---|---|
+   | Framework preset | Astro |
+   | Build command | `npm run build` |
+   | Build output directory | `dist` |
+   | Root directory | (leave empty) |
+   | Environment variable | `NODE_VERSION` = `22` |
+
+4. Save and deploy. Every push to the production branch redeploys. Other branches get preview URLs.
+
+No Workers, functions or environment secrets are needed.
+
+### Connect getfoundwithaltura.com
+
+1. In the Pages project open **Custom domains → Set up a custom domain**.
+2. Enter `getfoundwithaltura.com` and confirm.
+   - If the domain's DNS is already on Cloudflare, the record is created for you.
+   - If not, either move the nameservers to Cloudflare (recommended, required for the apex domain) or add the CNAME record Cloudflare shows you at your registrar.
+3. Repeat for `www.getfoundwithaltura.com`, then add a redirect rule (**Rules → Redirect Rules**) sending `www` to the apex so only one address is indexed.
+4. Wait for the certificate to show as active, then load the site over https.
+
+The canonical URL, sitemap and Open Graph tags all use `site.url` in `site.ts` and `site` in `astro.config.mjs`. Change both if the domain changes.
+
+## Analytics and events
+
+- The analytics slot is in `src/layouts/Layout.astro` and is off by default. Setting `ANALYTICS.enabled = true` with a `token` loads Cloudflare Web Analytics, which is cookieless, so no cookie banner is needed.
+- Booking buttons carry `data-event="booking_cta_click"` and Substack links carry `data-event="substack_click"`, each with a `data-location`. On click the site fires a `gf:event` browser event and calls `window.gfTrack(name, detail)` if that function exists.
+- **Cloudflare Web Analytics does not record custom events.** It will count page views only. To count button clicks, use a cookieless tool that supports events (for example Plausible or Fathom) and define `window.gfTrack` to forward to it, or rely on the UTM tags below and read clicks in the booking tool.
+- Outbound booking and Substack links get `utm_source`, `utm_medium`, `utm_campaign` and `utm_content` (the page location). If a visitor arrives with `utm_*` parameters, those are passed through to the booking link.
+- If you enable a YouTube or Vimeo video, the embed is a third party. Update the privacy page to mention it.
+
+## Open Graph image
+
+`public/og.png` is generated by `scripts/make-og.mjs` from the brand colours and fonts. Regenerate it only if the palette, fonts or tagline change:
+
+```bash
+npm i -D playwright
+```
+
+```bash
+npx playwright install chromium
+```
+
+```bash
+npm run og
+```
+
+## Structure
+
+```
+src/content/site.ts      all copy, prices, flags and settings
+src/lib/cta.ts           booking link fallback logic, UTM helper, build warning
+src/layouts/Layout.astro head tags, header, footer, analytics slot, small scripts
+src/layouts/Legal.astro  wrapper for /privacy and /terms
+src/components/          Cta, MapMock, Report, Calculator, Pricing, Proof, Video
+src/pages/               index, privacy, terms, 404, robots.txt, sitemap.xml
+src/styles/global.css    colour and font tokens, base styles
+public/                  favicon, og.png, _headers (Cloudflare cache and security headers)
+```
+
+## Quality bar
+
+Last production build scored 100 for performance, accessibility, best practices and SEO in Lighthouse (mobile) on all three pages. Re-run after content changes:
+
+```bash
+npx lighthouse http://localhost:4321/ --form-factor=mobile --view
+```

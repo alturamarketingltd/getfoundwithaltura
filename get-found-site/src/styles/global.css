@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* Brand tokens. Change the palette and fonts here. */
+@theme {
+  /* Klein blue carries the dark surfaces and the headings on linen. */
+  --color-ink: #002fa7;
+  --color-ink-2: #001a63; /* cards on blue: deep navy, clearly darker than the section */
+  --color-ink-3: #3355c2; /* hairlines on blue (decorative) */
+  /* Linen is the light ground; chalk lifts cards off it. */
+  --color-paper: #e9e1d3;
+  --color-paper-2: #d6cbb6; /* hairlines on linen */
+  --color-chalk: #f6f1e8;
+  /* Yellow highlight: text on blue, or a fill behind blue text. Never text on linen (1:1). */
+  --color-sun: #f9e14c;
+  --color-mist: #c9d3f5; /* secondary text on blue, 7.2:1 */
+  --color-slate: #3d4565; /* secondary text on linen, 7.2:1 */
+  --color-hint: #5a6280; /* placeholders on linen, 4.6:1 */
+  /* Hero map illustration: Klein-blue tints, decorative only. */
+  --color-map-land: #0a3cb8;
+  --color-map-water: #0636b0;
+  --color-map-block: #1748c4;
+  --color-map-road: #2a58d0;
+  --color-map-lane: #5577d8;
+
+  --font-display: "Hanken Grotesk", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Hanken Grotesk", "Hanken Fallback", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/hanken-grotesk-latin.woff2") format("woff2");
+}
+/* Metric-matched system fallbacks so text does not jump when the web fonts load. */
+@font-face {
+  font-family: "Hanken Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Roboto");
+  size-adjust: 99%;
+  ascent-override: 98%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-ink);
+  }
+  body {
+    caret-color: var(--color-ink);
+    font-family: var(--font-sans);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Focus ring colour follows the surface it sits on. */
+  .on-dark {
+    --focus: var(--color-sun);
+  }
+  .on-light {
+    --focus: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 3px solid var(--focus, var(--color-sun));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Currency switch: only the selected currency is shown (and read aloud). */
+  html[data-currency="CAD"] [data-cur="USD"],
+  html[data-currency="USD"] [data-cur="CAD"] {
+    display: none;
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+  .section {
+    padding-block: 4.5rem;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 7rem;
+    }
+  }
+  .eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .h2 {
+    font-size: clamp(1.875rem, 1.3rem + 2.4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  /* Legal pages */
+  .legal h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .legal p,
+  .legal ul {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: var(--color-slate);
+  }
+  .legal ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .legal li {
+    margin-bottom: 0.4rem;
+  }
+  .legal a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .legal strong {
+    color: var(--color-ink);
+  }
+}
