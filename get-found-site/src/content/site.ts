@@ -261,9 +261,9 @@ export const worthIt = {
     belowMinNote: 'Get Found is built for businesses where a visit or a monthly membership is $70 or more.',
   },
   anchor: {
-    // SOURCE CHECK NEEDED before launch: confirm this figure against the linked page.
-    text: 'Local SEO retainers average around US$1,500 a month.',
-    sourceLabel: 'Source: Ahrefs pricing survey',
+    // Checked Nov 2026 against ahrefs.com/blog/seo-pricing (updated Aug 2024): local SEO averages $1,557/month.
+    text: 'Local SEO services average about US$1,557 a month.',
+    sourceLabel: 'Source: Ahrefs survey of 439 SEO providers',
     sourceUrl: 'https://ahrefs.com/blog/seo-pricing',
   },
   timeLine: 'Under 10 minutes a month from you.',
