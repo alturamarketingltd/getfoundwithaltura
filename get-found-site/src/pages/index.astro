@@ -10,10 +10,12 @@ import Pricing from '../components/Pricing.astro';
 import Proof from '../components/Proof.astro';
 import Video from '../components/Video.astro';
 import Scorecard from '../components/Scorecard.astro';
+import Comparison from '../components/Comparison.astro';
 import {
   site,
   hero,
   problem,
+  comparison,
   outcomes,
   howItWorks,
   report,
@@ -160,6 +162,13 @@ const icons: Record<string, string> = {
           ))
         }
       </ol>
+
+      <!-- Three ways to get found -->
+      <div class="mt-24" aria-labelledby="compare-h">
+        <h2 id="compare-h" class="h2 max-w-3xl">{comparison.heading}</h2>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-slate">{comparison.intro}</p>
+        <Comparison />
+      </div>
     </div>
   </section>
 

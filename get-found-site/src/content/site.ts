@@ -78,7 +78,7 @@ export const hero = {
   headlineHighlight: 'find you',
   headlineAfter: ', or the place down the street?',
   subhead:
-    'Better visibility on Google Maps and in AI tools like ChatGPT for clinics, studios and gyms, with a short report every month showing what changed.',
+    'More than an AI tool, without the agency price. We keep your Google profile, reviews and listings working so clinics, studios and gyms show up on Google Maps and in AI tools like ChatGPT.',
   reassurance: 'Free. Emailed within one business day.',
   mock: {
     alt: 'Illustration of map search results for "physio near me". Three nearby businesses are listed. Your business is not showing.',
@@ -113,6 +113,38 @@ export const problem = {
       body: "Most practitioners and studio owners don't have time to manage any of it.",
     },
   ],
+};
+
+/* ------------------------------------------------------------------ */
+/* 2b. Three ways to get found (comparison)                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Categories, not competitor names. Figures checked Nov 2026:
+ * AI tools: typical published entry plans for Google profile tools ($25 to $100 per location).
+ * Agencies: Ahrefs survey of 439 SEO providers, local SEO average $1,557/month.
+ * Get Found's price is read from pricing.plans, so it follows any price change.
+ */
+export const comparison = {
+  heading: 'Three ways to get found.',
+  intro:
+    "Most clinics, studios and gyms don't need a full SEO team, and AI tools on their own don't know your business. Get Found sits in between.",
+  columns: ['An AI tool', 'Get Found', 'An SEO agency'],
+  featured: 1,
+  rows: [
+    { label: 'Cost per month', cells: ['About US$25 to $100', '{price}', 'About US$1,557'] },
+    {
+      label: 'Who does the work',
+      cells: ['Software. You set it up and check it.', 'AI-assisted, planned and checked by a person', 'A team'],
+    },
+    { label: 'Your time each month', cells: ['Hours', 'Under 10 minutes', 'Meetings and calls'] },
+    { label: 'Health and fitness ad rules', cells: ['Not built in', 'Followed', 'Depends on the agency'] },
+    { label: 'Reporting', cells: ['Dashboards to read', '3 lines plus one page', 'Often long and technical'] },
+    { label: 'Commitment', cells: ['Monthly', 'Monthly, or a term with a fair buyout', 'Often 6 to 12 months'] },
+  ],
+  pricePrefix: 'From',
+  footnote:
+    'AI tool range: typical published entry plans for Google profile tools, November 2026. Agency figure: Ahrefs survey of 439 SEO providers.',
 };
 
 /* ------------------------------------------------------------------ */
@@ -262,7 +294,7 @@ export const worthIt = {
   },
   anchor: {
     // Checked Nov 2026 against ahrefs.com/blog/seo-pricing (updated Aug 2024): local SEO averages $1,557/month.
-    text: 'Local SEO services average about US$1,557 a month.',
+    text: 'Local SEO services average about US$1,557 a month. AI tools cost less, but leave the checking to you.',
     sourceLabel: 'Source: Ahrefs survey of 439 SEO providers',
     sourceUrl: 'https://ahrefs.com/blog/seo-pricing',
   },
@@ -306,6 +338,7 @@ export const why = {
     bio: [
       "For over 7 years I've marketed health and fitness from every side: clinics and gyms, supplement brands, and the companies that make clinic equipment.",
       "Get Found is the service I'd want if I ran a clinic, studio or gym: the work done for you, nothing you don't own, and a plain report every month so you can check it.",
+      'I use AI to move faster, but every post and update is planned and checked by me before it goes live.',
     ],
     location: 'Based in BC. Working with businesses across Canada and the US.',
   },
@@ -402,6 +435,14 @@ export const faq = {
     {
       q: 'Who is Get Found for?',
       a: 'Health and fitness businesses across Canada and the US, like clinics, studios and gyms, where a single visit or a monthly membership is $70 or more.',
+    },
+    {
+      q: 'Why not just use an AI tool?',
+      a: "They're cheap, but on their own they post generic content, miss what makes your business different, and still need you to check their work. We use AI too, but every post and update is planned for your business, follows your profession's advertising rules, and is checked by a person before it goes live.",
+    },
+    {
+      q: 'Why not hire an SEO agency?',
+      a: "If you need a national content strategy, you might. Most local clinics, studios and gyms need their Google profile, reviews and listings done well every month. That doesn't take a $1,500-a-month retainer.",
     },
     {
       q: 'Do you guarantee rankings?',

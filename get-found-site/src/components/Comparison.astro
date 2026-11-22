@@ -1,0 +1,93 @@
+---
+/**
+ * "Three ways to get found": AI tool vs Get Found vs SEO agency.
+ * A real table from 768px up; stacked cards on phones (no sideways scrolling).
+ */
+import { comparison, pricing } from '../content/site';
+const currencies = ['CAD', 'USD'] as const;
+const lowest = pricing.plans.reduce((a, b) => (a.monthly.CAD <= b.monthly.CAD ? a : b));
+const { columns, rows, featured } = comparison;
+---
+
+<div class="mt-10">
+  <!-- Phones: one card per option -->
+  <ul class="grid gap-4 md:hidden">
+    {
+      columns.map((col, c) => (
+        <li class:list={['rounded-3xl p-6', c === featured ? 'on-dark bg-ink text-paper shadow-xl' : 'bg-chalk ring-1 ring-paper-2']}>
+          <h3 class="text-2xl font-bold">{col}</h3>
+          <dl class="mt-4 space-y-3">
+            {rows.map((row) => (
+              <div>
+                <dt class:list={['text-sm font-semibold', c === featured ? 'text-mist' : 'text-slate']}>{row.label}</dt>
+                <dd class="mt-0.5 text-lg leading-snug">
+                  {row.cells[c] === '{price}'
+                    ? currencies.map((cur) => (
+                        <span data-cur={cur}>
+                          {comparison.pricePrefix} ${lowest.monthly[cur]} {cur}
+                        </span>
+                      ))
+                    : row.cells[c]}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </li>
+      ))
+    }
+  </ul>
+
+  <!-- Tablet and up: a comparison table with Get Found highlighted -->
+  <table class="hidden w-full table-fixed border-separate border-spacing-0 text-left md:table">
+    <caption class="sr-only">{comparison.heading}</caption>
+    <thead>
+      <tr>
+        <td class="w-[22%]"></td>
+        {
+          columns.map((col, c) => (
+            <th
+              scope="col"
+              class:list={[
+                'px-5 pb-4 pt-6 align-bottom text-xl font-bold',
+                c === featured ? 'rounded-t-3xl bg-ink text-paper' : 'text-ink',
+              ]}
+            >
+              {col}
+            </th>
+          ))
+        }
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row, r) => (
+          <tr>
+            <th scope="row" class="border-t border-paper-2 py-4 pr-4 align-top text-sm font-semibold text-slate">
+              {row.label}
+            </th>
+            {row.cells.map((cell, c) => (
+              <td
+                class:list={[
+                  'px-5 py-4 align-top text-base leading-snug',
+                  c === featured
+                    ? ['bg-ink font-semibold text-paper', r === rows.length - 1 && 'rounded-b-3xl pb-6']
+                    : 'border-t border-paper-2 text-slate',
+                ]}
+              >
+                {cell === '{price}'
+                  ? currencies.map((cur) => (
+                      <span data-cur={cur}>
+                        {comparison.pricePrefix} ${lowest.monthly[cur]} {cur}
+                      </span>
+                    ))
+                  : cell}
+              </td>
+            ))}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <p class="mt-6 max-w-3xl text-sm text-slate">{comparison.footnote}</p>
+</div>
