@@ -24,7 +24,7 @@ Get Found is a monthly service by Altura Marketing LTD (BC, Canada) that gets th
 ## Operating Context
 
 - Entry point: the free visibility check, a one-page scorecard emailed within one business day: where the business shows for five local searches, how it compares with three nearby competitors, and whether ChatGPT mentions it. An optional 15-minute call (booking link) is offered for owners with questions; no call is required.
-- Monthly cycle: Google profile kept complete and active, automatic review requests after visits, listings corrected across Apple Maps, Bing, Yelp, Facebook and directories, one blog post answering a local question, and a 3-line email plus one-page report.
+- Monthly cycle: Google profile kept complete and active, automatic review requests after visits, listings corrected across Apple Maps, Bing, Yelp, Facebook and directories, one blog post answering questions people in the client's area are asking about services like theirs (researched from local search questions; the client may reuse it on social media, email or ads), and a 3-line email plus one-page report.
 - Optional website build: a new site that then runs on Get Found with hosting and updates included, quoted on the call.
 
 ## Capabilities and Constraints

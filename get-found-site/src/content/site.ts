@@ -140,6 +140,7 @@ export const comparison = {
     { label: 'Your time each month', cells: ['Hours', 'Under 10 minutes', 'Meetings and calls'] },
     { label: 'Health and fitness ad rules', cells: ['Not built in', 'Followed', 'Depends on the agency'] },
     { label: 'Reporting', cells: ['Dashboards to read', '3 lines plus one page', 'Often long and technical'] },
+    { label: 'Content', cells: ['Often generic', 'Built on questions people near you are asking', 'Varies by package'] },
     { label: 'Commitment', cells: ['Monthly', 'Monthly, or a term with a fair buyout', 'Often 6 to 12 months'] },
   ],
   pricePrefix: 'From',
@@ -177,8 +178,8 @@ export const outcomes = {
     },
     {
       icon: 'page',
-      title: 'A website that keeps improving',
-      body: 'A new blog post every month answering a real local question.',
+      title: 'Content built on what locals ask',
+      body: 'We look at the questions people in your area are asking about services like yours, then write a blog post each month that answers them. Reuse it on social media, in emails or in ads.',
     },
     {
       icon: 'mail',
@@ -459,6 +460,10 @@ export const faq = {
     {
       q: 'Do you work with businesses in the US?',
       a: 'Yes, across Canada and the US. Pricing is shown in both currencies.',
+    },
+    {
+      q: 'Can I use the content elsewhere?',
+      a: "Yes. It's yours. Each post answers a question people near you are actually asking, so it works well as social posts, emails or ad copy too.",
     },
     {
       q: 'Who owns my Google profile?',
