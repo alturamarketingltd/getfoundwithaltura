@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "hanken fallback",
+        "createdAt": "2026-11-22T18:23:02.273Z",
+        "reason": "Claude: metric-adjusted local fallback face for Hanken Grotesk (the documented font), not a separate typeface"
+      }
+    ]
+  }
+}
