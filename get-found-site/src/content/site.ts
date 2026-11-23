@@ -78,15 +78,57 @@ export const hero = {
   headlineHighlight: 'find you',
   headlineAfter: ', or the place down the street?',
   subhead:
-    'More than an AI tool, without the agency price. We keep your Google profile, reviews and listings working so clinics, gyms, and fitness and recovery studios show up on Google Maps and in AI tools like ChatGPT.',
+    'More than an AI tool, without the agency price. We keep your Google profile, reviews and listings working so you show up on Google Maps and in AI tools like ChatGPT.',
+  /** Who it's for, shown under the hero button. */
+  builtFor: {
+    lead: 'Built for',
+    items: ['physio, chiro and massage clinics', 'gyms', 'fitness studios', 'recovery studios'],
+  },
   reassurance: 'Free. Emailed within one business day.',
   mock: {
-    alt: 'Illustration of map search results for "physio near me". Three nearby businesses are listed. Your business is not showing.',
-    query: 'physio near me',
-    results: [
-      { name: 'The clinic down the street', rating: '4.8', reviews: '212', note: 'Open now' },
-      { name: 'Another clinic nearby', rating: '4.7', reviews: '148', note: 'Open now' },
-      { name: 'A recovery studio two blocks away', rating: '4.6', reviews: '96', note: 'Closes soon' },
+    alt: 'Illustration of local map searches, such as "physio near me" and "cold plunge near me". Three nearby businesses are listed for each. Your business is not showing.',
+    /** The map cycles through these searches (first one shows without JavaScript or with reduced motion). */
+    scenes: [
+      {
+        query: 'physio near me',
+        results: [
+          { name: 'The physio clinic down the street', rating: '4.8', reviews: '212', note: 'Open now' },
+          { name: 'Another clinic nearby', rating: '4.7', reviews: '148', note: 'Open now' },
+          { name: 'A sports clinic two blocks away', rating: '4.6', reviews: '96', note: 'Closes soon' },
+        ],
+      },
+      {
+        query: 'pilates studio near me',
+        results: [
+          { name: 'The studio down the street', rating: '4.9', reviews: '187', note: 'Class at 6pm' },
+          { name: 'Another studio nearby', rating: '4.7', reviews: '121', note: 'Open now' },
+          { name: 'A gym with classes two blocks away', rating: '4.5', reviews: '264', note: 'Open now' },
+        ],
+      },
+      {
+        query: 'cold plunge near me',
+        results: [
+          { name: 'The recovery studio down the street', rating: '4.9', reviews: '143', note: 'Open now' },
+          { name: 'A spa nearby', rating: '4.6', reviews: '310', note: 'Open now' },
+          { name: 'A gym with a sauna two blocks away', rating: '4.5', reviews: '88', note: 'Closes soon' },
+        ],
+      },
+      {
+        query: 'gym near me',
+        results: [
+          { name: 'The gym down the street', rating: '4.7', reviews: '402', note: 'Open 24 hours' },
+          { name: 'Another gym nearby', rating: '4.6', reviews: '256', note: 'Open now' },
+          { name: 'A fitness studio two blocks away', rating: '4.8', reviews: '91', note: 'Open now' },
+        ],
+      },
+      {
+        query: 'massage therapist near me',
+        results: [
+          { name: 'The massage clinic down the street', rating: '4.9', reviews: '176', note: 'Open now' },
+          { name: 'A wellness centre nearby', rating: '4.7', reviews: '133', note: 'Open now' },
+          { name: 'A chiropractor two blocks away', rating: '4.6', reviews: '102', note: 'Closes soon' },
+        ],
+      },
     ],
     missing: { name: 'Your business', note: 'Not showing' },
   },

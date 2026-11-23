@@ -1,16 +1,17 @@
 ---
 import { hero } from '../content/site';
 const { mock } = hero;
+const first = mock.scenes[0];
 const letters = ['A', 'B', 'C'];
 ---
 
-<figure class="relative mx-auto w-full max-w-md lg:max-w-none">
+<figure class="relative mx-auto w-full max-w-md lg:max-w-none" data-map-mock data-scenes={JSON.stringify(mock.scenes)}>
   <div role="img" aria-label={mock.alt} class="rounded-3xl border border-ink-3 bg-ink-2 p-3 shadow-2xl shadow-black/40 sm:p-4">
     <div aria-hidden="true">
       <!-- Search bar -->
       <div class="flex items-center gap-3 rounded-full bg-paper px-4 py-3 text-ink">
         <svg viewBox="0 0 20 20" class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="9" cy="9" r="6" /><path d="m14 14 4 4" /></svg>
-        <span class="text-sm font-medium">{mock.query}</span>
+        <span class="text-sm font-medium" data-map-query>{first.query}</span>
       </div>
 
       <!-- Stylized map -->
@@ -44,13 +45,13 @@ const letters = ['A', 'B', 'C'];
       <!-- Result list -->
       <ul class="mt-3 space-y-2">
         {
-          mock.results.map((r, i) => (
-            <li class="flex items-center gap-3 rounded-2xl bg-ink px-4 py-3">
+          first.results.map((r, i) => (
+            <li class="flex items-center gap-3 rounded-2xl bg-ink px-4 py-3" data-map-result>
               <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-paper text-xs font-bold text-ink">{letters[i]}</span>
               <span class="min-w-0 flex-1">
-                <span class="block truncate text-sm font-semibold text-paper">{r.name}</span>
-                <span class="block text-xs text-mist">
-                  {r.rating} <span class="text-mist">★</span> ({r.reviews}) · {r.note}
+                <span class="block truncate text-sm font-semibold text-paper" data-name>{r.name}</span>
+                <span class="block text-xs text-mist" data-meta>
+                  {r.rating} ★ ({r.reviews}) · {r.note}
                 </span>
               </span>
             </li>
@@ -65,3 +66,36 @@ const letters = ['A', 'B', 'C'];
     </div>
   </div>
 </figure>
+
+<script>
+  // Cycle the search through each kind of business, so every visitor sees their own search.
+  // Stays on the first search with reduced motion, and pauses while the map is off screen.
+  type Scene = { query: string; results: { name: string; rating: string; reviews: string; note: string }[] };
+  const fig = document.querySelector<HTMLElement>('[data-map-mock]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (fig && !reduce) {
+    const scenes: Scene[] = JSON.parse(fig.dataset.scenes || '[]');
+    const query = fig.querySelector<HTMLElement>('[data-map-query]')!;
+    const rows = [...fig.querySelectorAll<HTMLElement>('[data-map-result]')];
+    const swap = [query, ...rows];
+    swap.forEach((el) => (el.style.transition = 'opacity 250ms ease-out'));
+    let i = 0;
+    let visible = true;
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(fig);
+    setInterval(() => {
+      if (!visible || document.hidden || scenes.length < 2) return;
+      i = (i + 1) % scenes.length;
+      const s = scenes[i];
+      swap.forEach((el) => (el.style.opacity = '0'));
+      setTimeout(() => {
+        query.textContent = s.query;
+        rows.forEach((row, n) => {
+          const r = s.results[n];
+          row.querySelector('[data-name]')!.textContent = r.name;
+          row.querySelector('[data-meta]')!.textContent = `${r.rating} ★ (${r.reviews}) · ${r.note}`;
+        });
+        swap.forEach((el) => (el.style.opacity = '1'));
+      }, 250);
+    }, 3200);
+  }
+</script>
