@@ -289,9 +289,6 @@ export const worthIt = {
     /** Which plan the calculator compares against (plan id from pricing.plans). */
     comparePlanId: '12-month',
     compareNote: 'Compared with the 12-month price of',
-    /** Below this per-visit or monthly value, the calculator says Get Found is not the right fit. */
-    minFee: 70,
-    belowMinNote: 'Get Found is built for businesses where a visit or a monthly membership is $70 or more.',
   },
   anchor: {
     // Checked Nov 2026 against ahrefs.com/blog/seo-pricing (updated Aug 2024): local SEO averages $1,557/month.

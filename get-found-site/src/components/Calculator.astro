@@ -9,8 +9,6 @@ const plan = pricing.plans.find((p) => p.id === c.comparePlanId) ?? pricing.plan
   class="rounded-3xl bg-chalk p-6 shadow-sm ring-1 ring-paper-2 sm:p-8"
   data-price-cad={plan.monthly.CAD}
   data-price-usd={plan.monthly.USD}
-  data-min-fee={c.minFee}
-  data-below-min={c.belowMinNote}
   onsubmit="return false"
   novalidate
 >
@@ -76,11 +74,6 @@ const plan = pricing.plans.find((p) => p.id === c.comparePlanId) ?? pricing.plan
 
       if (!value) {
         resultEl.textContent = 'Enter your numbers to see how that compares.';
-        return;
-      }
-      // Below the minimum visit or membership value, say plainly that it is not the right fit.
-      if ((Number(fee.value) || 0) < Number(form.dataset.minFee)) {
-        resultEl.textContent = form.dataset.belowMin!;
         return;
       }
       const ratio = value / price;
