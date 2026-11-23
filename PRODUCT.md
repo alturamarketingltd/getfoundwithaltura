@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Owners of local, booking-based health and fitness businesses in Canada and the US: physiotherapists, chiropractors, massage therapists, and studio and gym owners. They are good at their work, busy with clients, and have no time to manage their Google profile, listings, reviews or website. They are evaluating whether to hand that work to someone they can trust.
+Owners of local, booking-based health and fitness businesses in Canada and the US: physiotherapists, chiropractors, massage therapists, gym and fitness studio owners, and recovery studio owners (sauna, cold plunge and similar recovery services). They are good at their work, busy with clients, and have no time to manage their Google profile, listings, reviews or website. They are evaluating whether to hand that work to someone they can trust.
 
 ## Product Purpose
 

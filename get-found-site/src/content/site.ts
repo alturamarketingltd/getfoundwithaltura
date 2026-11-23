@@ -78,7 +78,7 @@ export const hero = {
   headlineHighlight: 'find you',
   headlineAfter: ', or the place down the street?',
   subhead:
-    'More than an AI tool, without the agency price. We keep your Google profile, reviews and listings working so clinics, studios and gyms show up on Google Maps and in AI tools like ChatGPT.',
+    'More than an AI tool, without the agency price. We keep your Google profile, reviews and listings working so clinics, gyms, and fitness and recovery studios show up on Google Maps and in AI tools like ChatGPT.',
   reassurance: 'Free. Emailed within one business day.',
   mock: {
     alt: 'Illustration of map search results for "physio near me". Three nearby businesses are listed. Your business is not showing.',
@@ -86,7 +86,7 @@ export const hero = {
     results: [
       { name: 'The clinic down the street', rating: '4.8', reviews: '212', note: 'Open now' },
       { name: 'Another clinic nearby', rating: '4.7', reviews: '148', note: 'Open now' },
-      { name: 'A studio two blocks away', rating: '4.6', reviews: '96', note: 'Closes soon' },
+      { name: 'A recovery studio two blocks away', rating: '4.6', reviews: '96', note: 'Closes soon' },
     ],
     missing: { name: 'Your business', note: 'Not showing' },
   },
@@ -315,8 +315,8 @@ export const why = {
       body: 'Your Google profile, listings, domain and content. We only have manager access. No hostage-taking.',
     },
     {
-      title: 'Built for practitioners',
-      body: 'We follow the advertising rules of your professional college or licensing board and never touch patient or client health information.',
+      title: 'Built for health and fitness',
+      body: "We follow your professional college or licensing board's advertising rules, avoid health claims your services can't back up, and never touch patient or client health information.",
     },
     {
       title: 'No ranking promises',
@@ -435,7 +435,7 @@ export const faq = {
   items: [
     {
       q: 'Who is Get Found for?',
-      a: 'Health and fitness businesses across Canada and the US, like clinics, studios and gyms, where a single visit or a monthly membership is $70 or more.',
+      a: 'Health and fitness businesses across Canada and the US where a single visit or a monthly membership is $70 or more: physio, chiro and massage clinics, gyms, fitness studios, and recovery studios offering services like sauna and cold plunge.',
     },
     {
       q: 'Why not just use an AI tool?',
