@@ -435,7 +435,7 @@ export const faq = {
   items: [
     {
       q: 'Who is Get Found for?',
-      a: 'Health and fitness businesses across Canada and the US where a single visit or a monthly membership is $70 or more: physio, chiro and massage clinics, gyms, fitness studios, and recovery studios offering services like sauna and cold plunge.',
+      a: 'Health and fitness businesses across Canada and the US: physio, chiro and massage clinics, gyms, fitness studios, and recovery studios offering services like sauna and cold plunge.',
     },
     {
       q: 'Why not just use an AI tool?',
