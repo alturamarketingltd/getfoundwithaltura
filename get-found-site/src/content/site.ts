@@ -440,7 +440,7 @@ export const pricing = {
   ],
   setupWaivedLabel: 'Setup waived',
   setupLine: 'Setup: $500 CAD / $350 USD, waived on the 12-month plan.',
-  taxNote: 'Canadian clients: plus GST.',
+  taxNote: 'Prices exclude applicable taxes.',
   prepaidLabel: 'paid up front',
   monthlyLabel: 'Billed monthly. Stop anytime.',
   /** Prepaid 6- and 12-month plans are paid in advance and are not refundable. */
