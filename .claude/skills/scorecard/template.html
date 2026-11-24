@@ -35,7 +35,7 @@
   .meh { background: #ece4d3; color: var(--slate); }
   ol, ul { padding-left: 15px; }
   li { margin: 2px 0; }
-  .shot { width: 100%; max-height: 120px; object-fit: cover; object-position: top; border-radius: 8px; border: 1px solid var(--line); margin-top: 6px; }
+  .shot { width: 100%; max-height: 150px; object-fit: cover; object-position: top; border-radius: 8px; border: 1px solid var(--line); margin-top: 6px; }
   .quote { color: var(--slate); font-size: 9.5px; margin-top: 2px; }
   .fix { background: var(--ink); color: var(--paper); border: none; }
   .fix h2 { color: var(--paper); }
@@ -70,7 +70,7 @@
 
   // 1. Local searches
   const rows = (d.searches || []).map((s) => {
-    const pos = s.position ? pill(Number(s.position) <= 3 ? 'yes' : 'meh', `#${s.position}`) : pill('no', 'Not showing');
+    const pos = s.notChecked ? pill('meh', 'Not checked') : s.position ? pill(Number(s.position) <= 3 ? 'yes' : 'meh', `#${s.position}`) : pill('no', 'Not showing');
     return `<tr><td>${esc(s.query)}</td><td class="num">${pos}</td></tr>`;
   }).join('');
   parts.push(el(`<h2>Your local searches</h2><p class="sub">Map results as someone in ${esc(d.city)} sees them.</p>
@@ -80,20 +80,25 @@
   // 2. AI answers
   const ai = (d.ai || []).map((a) => `<tr><td><strong>${esc(a.tool)}</strong><div class="quote">"${esc(a.question)}"</div>${a.note ? `<div class="quote">${esc(a.note)}</div>` : ''}</td>
     <td class="num">${a.mentioned ? pill('yes', 'Mentioned') : pill('no', 'Not mentioned')}</td></tr>`).join('');
-  parts.push(el(`<h2>AI answers</h2><p class="sub">What ChatGPT and Google's AI say when asked.</p>
+  parts.push(el(`<h2>AI answers</h2><p class="sub">What AI assistants say when a customer asks.</p>
     <table><tr><th>Question</th><th class="num">You</th></tr>${ai}</table>`));
 
   // 3. You vs the top 3
-  const comp = [{ ...(d.you || {}), name: d.business, you: true }, ...(d.competitors || [])].map((c) => `<tr class="${c.you ? 'you' : ''}">
-    <td>${esc(c.name)}</td><td class="num">${esc(c.rating ?? '–')}</td><td class="num">${esc(c.reviews ?? '–')}</td>
-    <td class="num">${esc(c.photos ?? '–')}</td><td>${esc(c.lastPost ?? '–')}</td></tr>`).join('');
+  const all = [{ ...(d.you || {}), name: d.business, you: true }, ...(d.competitors || [])];
+  const hasPhotos = all.some((c) => c.photos != null);
+  const hasPosts = all.some((c) => c.lastPost != null);
+  const rating = (r) => (r == null ? '–' : Number(r).toFixed(1));
+  const comp = all.map((c) => `<tr class="${c.you ? 'you' : ''}">
+    <td>${esc(c.name)}</td><td class="num">${rating(c.rating)}</td><td class="num">${esc(c.reviews ?? '–')}</td>
+    ${hasPhotos ? `<td class="num">${esc(c.photos ?? '–')}</td>` : ''}${hasPosts ? `<td>${esc(c.lastPost ?? '–')}</td>` : ''}</tr>`).join('');
+  const compHead = `<tr><th>Business</th><th class="num">Rating</th><th class="num">Reviews</th>${hasPhotos ? '<th class="num">Photos</th>' : ''}${hasPosts ? '<th>Last post</th>' : ''}</tr>`;
   const gaps = (d.gaps || []).map((g) => `<li>${esc(g)}</li>`).join('');
   parts.push(el(`<h2>You vs the top 3 nearby</h2>
-    <table><tr><th>Business</th><th class="num">Rating</th><th class="num">Reviews</th><th class="num">Photos</th><th>Last post</th></tr>${comp}</table>
+    <table>${compHead}${comp}</table>
     ${gaps ? `<h2 style="margin-top:10px">Your 3 biggest gaps</h2><ol>${gaps}</ol>` : ''}`, 'card wide'));
 
   // 4. Consistency
-  const label = { ok: ['yes', 'Correct'], wrong: ['no', 'Wrong details'], missing: ['meh', 'Not listed'] };
+  const label = { ok: ['yes', 'Correct'], incomplete: ['meh', 'Incomplete'], wrong: ['no', 'Wrong details'], missing: ['meh', 'Not listed'] };
   const cons = (d.consistency || []).map((c) => {
     const [cls, txt] = label[c.status] || ['meh', c.status];
     return `<tr><td>${esc(c.site)}${c.note ? `<div class="quote">${esc(c.note)}</div>` : ''}</td><td class="num">${pill(cls, txt)}</td></tr>`;

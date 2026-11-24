@@ -29,6 +29,17 @@ Start by restating the request (business, city, service, website if known) and c
 5. **Demand.** Ask Nathaniel for Google Keyword Planner volumes for the 3–5 main searches (it needs his Google Ads login). If the total is under about 50 a month, say so honestly and steer the pitch to reviews, trust and AI answers rather than map rankings.
 6. **Website.** Search `site:theirdomain.com` to confirm Google has indexed it, and run PageSpeed Insights (pagespeed.web.dev) for the mobile score.
 
+## Practical notes (from test runs)
+
+- **BrightLocal's free checker allows 3 searches a day**, and its results are just Google local-search links with a location code (`uule=`) built in. Copy that link once, then change only the `q=` part for the other searches, e.g. `https://www.google.ca/search?q=pilates+classes&gl=ca&hl=en&pws=0&uule=<code>&tbm=lcl`.
+- **Google rate-limits fast searching** and shows a "not a robot" page (HTTP 429). Space Google searches out (a minute or so apart, other steps in between) and keep to about five. If the block appears, don't solve the CAPTCHA: do the non-Google steps, try again later, or ask Nathaniel to clear it in the browser pane. Anything still blocked is "Not checked".
+- To read map positions, take the business names that sit directly above each rating line (`4.8(212)`) in the page text, in order.
+- Screenshot the results list, not the search bar: crop out the top ~300px before saving `map.jpg`.
+- **PageSpeed:** the keyless API often hits its daily quota; use pagespeed.web.dev in the browser pane instead.
+- **ChatGPT** works signed out in the browser pane (close to what a casual customer sees). Start a new chat for each question. Note which sources it cites (ClassPass, directories): they show where to build reviews.
+- **Apple Maps** web search centres on the browser's own location: add `&center=<lat>%2C<lng>&span=0.03%2C0.06` for the business's city. Note "Claim This Place", missing hours and wrong website links.
+- **Yelp** search pages repeat your query in the title; only count it as listed if the business itself appears with its address. **Bing**: no local card in Bing web results usually means no Bing Places listing.
+
 ## Build the scorecard
 
 Write `scorecards/<slug>/data.json`:
@@ -49,7 +60,7 @@ Write `scorecards/<slug>/data.json`:
 }
 ```
 
-`position: null` means not showing. `status` is `ok`, `wrong` or `missing`. Use `null` for anything not checked. Keep notes short: it must fit one page.
+`position: null` means not showing; add `"notChecked": true` to a search you couldn't run. `status` is `ok`, `incomplete` (right details, but gaps like missing hours), `wrong` or `missing`. Photos and last-post columns hide themselves when nothing was checked. Use `null` for anything not checked. Keep notes short: it must fit one page.
 
 Render it from the project root:
 
