@@ -43,13 +43,13 @@ export function ctaHref(location: string): string | null {
 }
 
 // Printed once per dev start or build.
-if (ctaMode === 'disabled') {
+if (!SCORECARD_FORM_ENDPOINT && ctaMode === 'disabled') {
   console.warn(
-    '\n\x1b[33m[get-found] WARNING: BOOKING_URL and CONTACT_EMAIL are both empty in src/content/site.ts.\n' +
-      '            Every booking button is disabled. Do not launch like this.\x1b[0m\n',
+    '\n\x1b[33m[get-found] WARNING: no WEB3FORMS_ACCESS_KEY, BOOKING_URL or CONTACT_EMAIL in src/content/site.ts.\n' +
+      '            Every main button is disabled. Do not launch like this.\x1b[0m\n',
   );
-} else if (ctaMode === 'email') {
+} else if (ctaMode === 'disabled') {
   console.warn(
-    '\n\x1b[33m[get-found] NOTE: BOOKING_URL is empty. Booking buttons fall back to a mailto: link.\x1b[0m\n',
+    '\n\x1b[33m[get-found] NOTE: BOOKING_URL and CONTACT_EMAIL are empty. The optional call links are hidden and the footer has no contact email.\x1b[0m\n',
   );
 }

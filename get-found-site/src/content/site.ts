@@ -19,7 +19,7 @@ export const CONTACT_EMAIL = '';
  * it only lets this form send submissions to your inbox.
  * Leave '' and the form is hidden on the live site (main buttons fall back to booking).
  */
-export const WEB3FORMS_ACCESS_KEY = '';
+export const WEB3FORMS_ACCESS_KEY = 'a6f32e21-8b90-433c-a6fb-0bb60a7a0887';
 
 /** Where the form posts. Set automatically once the access key is filled in. */
 export const SCORECARD_FORM_ENDPOINT = WEB3FORMS_ACCESS_KEY ? 'https://api.web3forms.com/submit' : '';
