@@ -115,6 +115,34 @@
 }
 
 @layer components {
+  /* "Built for" ticker on phones: two copies of the list slide left forever, edges fade out. */
+  .ticker {
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .ticker-track {
+    animation: ticker 22s linear infinite;
+  }
+  @keyframes ticker {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  /* Reduced motion: no sliding; the list wraps instead and the copy is hidden. */
+  @media (prefers-reduced-motion: reduce) {
+    .ticker {
+      mask-image: none;
+    }
+    .ticker-track {
+      animation: none !important;
+      width: auto;
+      flex-wrap: wrap;
+      row-gap: 0.25rem;
+    }
+    .ticker-item[aria-hidden="true"] {
+      display: none;
+    }
+  }
+
   .wrap {
     margin-inline: auto;
     width: 100%;

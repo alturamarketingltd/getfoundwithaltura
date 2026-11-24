@@ -122,7 +122,7 @@ const icons: Record<string, string> = {
 <Layout jsonLd={jsonLd}>
   <!-- 1. Hero -->
   <section class="on-dark bg-ink text-paper">
-    <div class="wrap grid items-center gap-12 pb-20 pt-6 md:pb-28 md:pt-8 lg:grid-cols-[1.35fr_0.85fr] lg:gap-14">
+    <div class="wrap grid items-center gap-12 pb-14 pt-6 md:pb-20 md:pt-8 lg:grid-cols-[1.35fr_0.85fr] lg:gap-14">
       <div>
         <h1 class="text-[2.25rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem] lg:text-[3.6rem]">
           {hero.headlineBefore}<span class="text-sun">{hero.headlineHighlight}</span>{hero.headlineAfter}
@@ -132,15 +132,6 @@ const icons: Record<string, string> = {
           <Cta location="hero" />
         </div>
         <p class="mt-4 text-sm text-mist">{hero.reassurance}</p>
-        <p class="mt-6 flex max-w-xl flex-wrap gap-x-2 gap-y-1 border-t border-ink-3 pt-4 text-base leading-relaxed text-paper">
-          <span class="text-mist">{hero.builtFor.lead}</span>
-          {hero.builtFor.items.map((item, i) => (
-            <span class="whitespace-nowrap">
-              {i > 0 && <span class="pr-2 text-mist" aria-hidden="true">·</span>}
-              {item}{i < hero.builtFor.items.length - 1 && <span class="sr-only">,</span>}
-            </span>
-          ))}
-        </p>
         {callHref && showScorecard && (
           <p class="mt-1 text-sm">
             <a
@@ -154,6 +145,34 @@ const icons: Record<string, string> = {
         )}
       </div>
       <MapMock />
+    </div>
+
+    <!-- Built for: a full-width band under the hero -->
+    <div class="border-t border-ink-3 bg-ink-2">
+      <!-- Tablet and up: one row across the page -->
+      <div class="wrap hidden items-center gap-8 py-6 md:flex">
+        <p class="shrink-0 text-sm font-semibold text-mist">{hero.builtFor.lead}</p>
+        <ul class="flex flex-1 flex-wrap items-center justify-between gap-x-6 gap-y-2 text-lg font-semibold">
+          {hero.builtFor.items.map((item) => <li class="whitespace-nowrap">{item}</li>)}
+        </ul>
+      </div>
+
+      <!-- Phones: the label stays put while the list glides past -->
+      <div class="flex items-center gap-4 py-4 pl-5 md:hidden">
+        <p class="shrink-0 text-sm font-semibold text-mist">{hero.builtFor.lead}</p>
+        <div class="ticker min-w-0 flex-1 overflow-hidden">
+          <ul class="ticker-track flex w-max items-center text-base font-semibold">
+            {[0, 1].map((copy) =>
+              hero.builtFor.items.map((item) => (
+                <li class="ticker-item flex items-center whitespace-nowrap" aria-hidden={copy === 1 ? 'true' : undefined}>
+                  {item}
+                  <span class="px-4 text-mist" aria-hidden="true">·</span>
+                </li>
+              )),
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
