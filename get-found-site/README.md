@@ -51,7 +51,7 @@ Rules for testimonials: only real, approved quotes. The section renders nothing 
 
 ## Deploy to Cloudflare Pages
 
-1. Push this folder to a GitHub or GitLab repository.
+1. Push the project to GitHub. The repository root is the `Altura Get Found Site` folder; the site itself is in `get-found-site/`.
 2. In the Cloudflare dashboard go to **Workers & Pages → Create → Pages → Connect to Git** and pick the repository.
 3. Build settings:
 
@@ -60,8 +60,8 @@ Rules for testimonials: only real, approved quotes. The section renders nothing 
    | Framework preset | Astro |
    | Build command | `npm run build` |
    | Build output directory | `dist` |
-   | Root directory | (leave empty) |
-   | Environment variable | `NODE_VERSION` = `22` |
+   | Root directory | `get-found-site` |
+   | Environment variable | `NODE_VERSION` = `26` (also pinned in `.node-version`) |
 
 4. Save and deploy. Every push to the production branch redeploys. Other branches get preview URLs.
 
