@@ -38,7 +38,7 @@ const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/*.{jpg,jp
 const founderPhoto = why.founder.photo ? photos[`../assets/${why.founder.photo}`]?.default : undefined;
 
 // Optional call link (booking). Hidden until a booking link or contact email exists.
-const callHref = ctaHref('hero-call');
+const callHref = ctaMode === 'booking' ? ctaHref('hero-call') : null;
 
 // The scorecard form shows once its endpoint is set (and always in dev, with a warning).
 const showScorecard = Boolean(SCORECARD_FORM_ENDPOINT) || import.meta.env.DEV;
@@ -375,7 +375,7 @@ const icons: Record<string, string> = {
           </div>
           <p class="mt-10 text-lg font-semibold">{scorecard.orBook}</p>
           <div class="mt-4 flex justify-center">
-            <Cta location="final" surface="light" variant="outline" action="call" label={cta.callButton} />
+            <Cta location="final" surface="light" variant="outline" action="call" label={ctaMode === 'booking' ? cta.callButton : cta.emailButton} />
           </div>
         </>
       ) : (

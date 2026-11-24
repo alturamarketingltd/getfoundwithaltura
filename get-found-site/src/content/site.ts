@@ -11,7 +11,7 @@
 export const BOOKING_URL = '';
 
 /** Contact email. Leave '' until it exists. Used for the CTA fallback and the footer. */
-export const CONTACT_EMAIL = '';
+export const CONTACT_EMAIL = 'hello@getfoundwithaltura.com';
 
 /**
  * Visibility check form backend: Web3Forms (free plan, 250 submissions a month).
@@ -25,7 +25,7 @@ export const WEB3FORMS_ACCESS_KEY = 'a6f32e21-8b90-433c-a6fb-0bb60a7a0887';
 export const SCORECARD_FORM_ENDPOINT = WEB3FORMS_ACCESS_KEY ? 'https://api.web3forms.com/submit' : '';
 
 /** Subject line used when CTAs fall back to a mailto: link. */
-export const CTA_EMAIL_SUBJECT = 'Free visibility check';
+export const CTA_EMAIL_SUBJECT = 'Question about Get Found';
 
 export const SUBSTACK_URL = 'https://substack.com/@nathanielaltura';
 
@@ -69,6 +69,8 @@ export const cta = {
   /** The optional call, offered as a secondary link. */
   callLabel: 'Questions first? Book a 15-minute call',
   callButton: 'Book a 15-minute call',
+  /** Shown instead of the call button while there's no booking link. */
+  emailButton: 'Email us',
   comingSoon: 'Coming soon: set BOOKING_URL or CONTACT_EMAIL in src/content/site.ts',
 };
 
