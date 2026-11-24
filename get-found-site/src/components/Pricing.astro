@@ -2,9 +2,8 @@
 import { pricing } from '../content/site';
 import Cta from './Cta.astro';
 const currencies = ['CAD', 'USD'] as const;
-const monthly = pricing.plans.find((p) => p.id === 'monthly')!;
-const yearly = pricing.plans.find((p) => p.id === '12-month')!;
-const exit = pricing.earlyExit;
+const note = pricing.prepayNote;
+const money = (n: number) => '$' + n.toLocaleString('en-US');
 ---
 
 <div class="flex flex-wrap items-center justify-between gap-4">
@@ -53,6 +52,15 @@ const exit = pricing.earlyExit;
               / month
             </span>
           </p>
+          <p class:list={['mt-3 text-base', featured ? 'text-mist' : 'text-slate']}>
+            {plan.prepaidMonths
+              ? currencies.map((cur) => (
+                  <span data-cur={cur}>
+                    {money(plan.monthly[cur] * plan.prepaidMonths)} {cur} {pricing.prepaidLabel}
+                  </span>
+                ))
+              : pricing.monthlyLabel}
+          </p>
           <p class:list={['mt-4 text-base font-semibold', featured ? 'text-paper' : 'text-slate']}>
             {plan.setupWaived
               ? pricing.setupWaivedLabel
@@ -70,16 +78,8 @@ const exit = pricing.earlyExit;
 </div>
 
 <div class="mt-6 max-w-3xl rounded-2xl bg-chalk p-5 ring-1 ring-paper-2 sm:p-6">
-  <h3 class="text-lg font-bold">{exit.heading}</h3>
-  <p class="mt-2 text-slate">{exit.body}</p>
-  <p class="mt-2 text-sm text-slate">
-    For example, leaving the 12-month plan after {exit.exampleMonths} months:{' '}
-    {currencies.map((cur) => (
-      <span data-cur={cur}>
-        {exit.exampleMonths} &times; (${monthly.monthly[cur]} &minus; ${yearly.monthly[cur]}) = ${exit.exampleMonths * (monthly.monthly[cur] - yearly.monthly[cur])} {cur}.
-      </span>
-    ))}
-  </p>
+  <h3 class="text-lg font-bold">{note.heading}</h3>
+  <p class="mt-2 text-slate">{note.body}</p>
 </div>
 
 <p class="mt-8 text-lg">

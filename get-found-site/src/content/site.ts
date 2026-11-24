@@ -183,7 +183,7 @@ export const comparison = {
     { label: 'Health and fitness ad rules', cells: ['Not built in', 'Followed', 'Depends on the agency'] },
     { label: 'Reporting', cells: ['Dashboards to read', '3 lines plus one page', 'Often long and technical'] },
     { label: 'Content', cells: ['Often generic', 'Built on questions people near you are asking', 'Varies by package'] },
-    { label: 'Commitment', cells: ['Monthly', 'Monthly, or a term with a fair buyout', 'Often 6 to 12 months'] },
+    { label: 'Commitment', cells: ['Monthly', 'Monthly, or prepay 6 or 12 months', 'Often 6 to 12 months'] },
   ],
   pricePrefix: 'From',
   footnote:
@@ -359,7 +359,7 @@ export const why = {
     },
     {
       title: 'Leave when you want',
-      body: "Month-to-month stops anytime. On a 6- or 12-month plan, leaving early just means paying back the discount for the months you've had.",
+      body: "Start month-to-month and stop anytime. Prepay 6 or 12 months when you're ready for the lower price.",
     },
   ],
   substack: {
@@ -408,7 +408,7 @@ export type Currency = 'CAD' | 'USD';
 export const pricing = {
   eyebrow: 'Pricing',
   heading: 'One service. Three ways to pay.',
-  intro: 'Billed monthly. Everything is included in every option.',
+  intro: 'Month-to-month, or prepay 6 or 12 months for a lower price. Everything is included in every option.',
   defaultCurrency: 'CAD' as Currency,
   setup: { CAD: 500, USD: 350 },
   plans: [
@@ -416,6 +416,8 @@ export const pricing = {
       id: '12-month',
       name: '12-month plan',
       monthly: { CAD: 295, USD: 210 },
+      /** Paid up front for the whole term. */
+      prepaidMonths: 12,
       setupWaived: true,
       badge: 'Most popular',
     },
@@ -423,6 +425,7 @@ export const pricing = {
       id: '6-month',
       name: '6-month plan',
       monthly: { CAD: 365, USD: 260 },
+      prepaidMonths: 6,
       setupWaived: false,
       badge: '',
     },
@@ -430,6 +433,7 @@ export const pricing = {
       id: 'monthly',
       name: 'Month-to-month',
       monthly: { CAD: 420, USD: 300 },
+      prepaidMonths: 0,
       setupWaived: false,
       badge: '',
     },
@@ -437,11 +441,12 @@ export const pricing = {
   setupWaivedLabel: 'Setup waived',
   setupLine: 'Setup: $500 CAD / $350 USD, waived on the 12-month plan.',
   taxNote: 'Canadian clients: plus GST.',
-  /** Early exit from a 6- or 12-month plan: pay back the discount for the months used. The example is worked out from the plan prices. */
-  earlyExit: {
-    heading: 'Leaving a 6- or 12-month plan early?',
-    body: "You pay back the difference between the month-to-month price and your plan's price for the months you've had. That's it: a waived setup fee stays waived.",
-    exampleMonths: 4,
+  prepaidLabel: 'paid up front',
+  monthlyLabel: 'Billed monthly. Stop anytime.',
+  /** Prepaid 6- and 12-month plans are paid in advance and are not refundable. */
+  prepayNote: {
+    heading: 'Not sure yet?',
+    body: "Start month-to-month and stop anytime. Switch to a prepaid plan whenever you're ready for the lower price. Prepaid plans aren't refundable.",
   },
   includedLabel: 'Included in every option',
   includedLine: 'Everything under "More ways to be found" is included in every option.',
@@ -514,7 +519,7 @@ export const faq = {
     },
     {
       q: 'Can I cancel?',
-      a: "Yes. Month-to-month can stop anytime. On a 6- or 12-month plan you can still leave early: you pay back the difference between the month-to-month price and your plan's price for the months you've had.",
+      a: "Month-to-month can stop anytime. Prepaid 6- and 12-month plans aren't refundable, so start month-to-month if you're unsure and switch when you're ready.",
     },
     {
       q: 'Which AI tools do you track?',

@@ -30,6 +30,7 @@ Get Found is a monthly service by Altura Marketing LTD (BC, Canada) that gets th
 ## Capabilities and Constraints
 
 - Prices are shown in CAD and USD and are provisional: they depend on the pilot clients. Canadian clients pay GST.
+- Plans: month-to-month (billed monthly, stop anytime), or 6- and 12-month plans paid in full up front at a lower monthly rate. Prepaid plans are not refundable; owners who are unsure start month-to-month and switch later.
 - The booking link, contact email and scorecard form backend are not set up yet; the site must not launch without them.
 - Marketing emails require explicit opt-in (Canada's anti-spam law, CASL); scorecard requests alone do not grant it.
 - Privacy and terms pages are drafts awaiting review.
