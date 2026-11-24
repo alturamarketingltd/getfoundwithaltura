@@ -4,13 +4,13 @@ Marketing site for Get Found, a service by Altura Marketing LTD. Astro + Tailwin
 
 Live: https://getfoundwithaltura.com (Cloudflare Pages project `getfoundwithaltura`, deploys automatically from `main` on GitHub: alturamarketingltd/getfoundwithaltura).
 
-## Pre-launch blockers
+## Setup status
 
-Do not launch until every item is done.
+Launched November 2026. What's configured and what's optional:
 
-1. **`BOOKING_URL` and `CONTACT_EMAIL` are empty** in `src/content/site.ts`. While both are empty, every booking button is disabled and the build prints a warning. With only `CONTACT_EMAIL` set, buttons fall back to a `mailto:` link with the subject "Free visibility check".
-2. **Privacy and terms pages are drafts.** Both are marked "Draft, review before publishing". Have them reviewed, then remove the notice line near the top of `src/layouts/Legal.astro`.
-3. **Visibility check form needs its Web3Forms key.** Sign up free at web3forms.com with the email that should receive requests, copy the access key, and paste it into `WEB3FORMS_ACCESS_KEY` in `src/content/site.ts`. That one setting turns the form on and points every main button at it. Until then the form is hidden on the live site and the main buttons fall back to the booking link. Each request arrives by email with business, city, service, email, optional phone, marketing opt-in (with the exact wording agreed to) and any `utm_*` values. Free plan: 250 submissions a month. Only add people to marketing emails when `marketing_consent` is true.
+1. **Visibility check form (done).** `WEB3FORMS_ACCESS_KEY` in `src/content/site.ts` points the form at Web3Forms (free plan, 250 submissions a month). Each request arrives by email with business, city, service, email, optional phone, marketing opt-in (with the exact wording agreed to) and any `utm_*` values. Only add people to marketing emails when `marketing_consent` is true.
+2. **Contact email (done).** `CONTACT_EMAIL` is hello@getfoundwithaltura.com, forwarded to Gmail by Cloudflare Email Routing.
+3. **Optional call.** Set `BOOKING_URL` to a booking link to show the "Book a 15-minute call" options. Until then, "Email us" stands in.
 4. **Analytics is off.** Set `ANALYTICS` in `src/content/site.ts` when you have a token. See "Analytics and events" below.
 
 ## Run it locally

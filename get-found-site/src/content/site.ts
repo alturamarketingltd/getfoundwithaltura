@@ -597,6 +597,5 @@ export const footer = {
 /* ------------------------------------------------------------------ */
 
 export const legal = {
-  draftNotice: 'Draft, review before publishing.',
   lastUpdated: 'November 2026',
 };

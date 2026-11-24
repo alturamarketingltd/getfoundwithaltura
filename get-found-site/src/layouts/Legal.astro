@@ -14,8 +14,7 @@ const { title, description, heading } = Astro.props;
   <section class="section on-light bg-paper text-ink">
     <div class="wrap">
       <div class="legal mx-auto max-w-3xl">
-        <p class="inline-block rounded-full bg-ink px-4 py-2 text-sm font-bold text-sun">{legal.draftNotice}</p>
-        <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{heading}</h1>
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">{heading}</h1>
         <p class="mt-4 text-sm">Last updated: {legal.lastUpdated}</p>
         <slot />
       </div>
