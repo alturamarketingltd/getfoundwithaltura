@@ -351,15 +351,15 @@ export const why = {
   points: [
     {
       title: 'You own everything',
-      body: 'Your Google profile, listings, domain and content. We only have manager access. No hostage-taking.',
+      body: 'Your Google profile, listings, domain and content stay yours. We only have manager access, and you can remove us anytime.',
     },
     {
-      title: 'Built for health and fitness',
-      body: "We follow your professional college or licensing board's advertising rules, avoid health claims your services can't back up, and never touch patient or client health information.",
+      title: 'Check every change',
+      body: 'A 3-line email and a one-page report every month. No ranking promises, just what we did and what changed.',
     },
     {
-      title: 'No ranking promises',
-      body: 'You see exactly what we did and what changed.',
+      title: 'Leave when you want',
+      body: "Month-to-month stops anytime. On a 6- or 12-month plan, leaving early just means paying back the discount for the months you've had.",
     },
   ],
   substack: {
