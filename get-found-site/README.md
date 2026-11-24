@@ -2,6 +2,8 @@
 
 Marketing site for Get Found, a service by Altura Marketing LTD. Astro + Tailwind CSS, fully static, hosted on Cloudflare Pages at getfoundwithaltura.com.
 
+Live: https://getfoundwithaltura.com (Cloudflare Pages project `getfoundwithaltura`, deploys automatically from `main` on GitHub: alturamarketingltd/getfoundwithaltura).
+
 ## Pre-launch blockers
 
 Do not launch until every item is done.
