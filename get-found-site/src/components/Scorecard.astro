@@ -1,10 +1,10 @@
 ---
 /**
  * Scorecard request form (lead magnet).
- * Posts JSON to SCORECARD_FORM_ENDPOINT in src/content/site.ts.
- * While the endpoint is empty the form is shown in dev only (with a warning) and sends nothing.
+ * Posts JSON to Web3Forms (WEB3FORMS_ACCESS_KEY in src/content/site.ts), which emails you each request.
+ * While the key is empty the form is shown in dev only (with a warning) and sends nothing.
  */
-import { scorecard, SCORECARD_FORM_ENDPOINT } from '../content/site';
+import { scorecard, SCORECARD_FORM_ENDPOINT, WEB3FORMS_ACCESS_KEY } from '../content/site';
 const live = Boolean(SCORECARD_FORM_ENDPOINT);
 const f = scorecard.form;
 const input =
@@ -15,6 +15,8 @@ const input =
   id="scorecard-form"
   class="rounded-3xl bg-chalk p-6 text-left shadow-sm ring-1 ring-paper-2 sm:p-8"
   data-endpoint={SCORECARD_FORM_ENDPOINT}
+  data-access-key={WEB3FORMS_ACCESS_KEY}
+  data-subject={f.notifySubject}
   data-consent-text={f.optIn}
   data-success={f.success}
   data-error={f.error}
@@ -36,6 +38,12 @@ const input =
     <div>
       <label for="sc-email" class="block text-sm font-semibold">{f.emailLabel}</label>
       <input id="sc-email" name="email" type="email" required maxlength="254" autocomplete="email" inputmode="email" class={input} />
+    </div>
+    <div>
+      <label for="sc-phone" class="block text-sm font-semibold">
+        {f.phoneLabel} <span class="font-normal text-slate">{f.phoneOptional}</span>
+      </label>
+      <input id="sc-phone" name="phone" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" class={input} />
     </div>
   </div>
 
@@ -102,11 +110,17 @@ const input =
 
       const marketing = data.get('marketing') === 'on';
       const utm = Object.fromEntries([...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_')));
+      const business = String(data.get('business') ?? '').trim();
       const payload = {
-        business: String(data.get('business') ?? '').trim(),
+        // Web3Forms fields: the key routes it to your inbox; subject and from_name label the email.
+        access_key: form.dataset.accessKey,
+        subject: `${form.dataset.subject}: ${business}`,
+        from_name: 'Get Found website',
+        business,
         city: String(data.get('city') ?? '').trim(),
         service: String(data.get('service') ?? '').trim(),
         email: String(data.get('email') ?? '').trim(),
+        phone: String(data.get('phone') ?? '').trim(),
         marketing_consent: marketing,
         // Keep the exact wording they agreed to, as a consent record.
         marketing_consent_text: marketing ? form.dataset.consentText : '',

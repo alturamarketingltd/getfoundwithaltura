@@ -14,11 +14,15 @@ export const BOOKING_URL = '';
 export const CONTACT_EMAIL = '';
 
 /**
- * Where the scorecard request form sends its data (a JSON POST).
- * Leave '' until the form backend exists: the form is then hidden on the live site.
- * Must be an https URL you control (your email tool, CRM or a server function).
+ * Visibility check form backend: Web3Forms (free plan, 250 submissions a month).
+ * Paste the access key from web3forms.com here. It is a public key, safe to publish:
+ * it only lets this form send submissions to your inbox.
+ * Leave '' and the form is hidden on the live site (main buttons fall back to booking).
  */
-export const SCORECARD_FORM_ENDPOINT = '';
+export const WEB3FORMS_ACCESS_KEY = '';
+
+/** Where the form posts. Set automatically once the access key is filled in. */
+export const SCORECARD_FORM_ENDPOINT = WEB3FORMS_ACCESS_KEY ? 'https://api.web3forms.com/submit' : '';
 
 /** Subject line used when CTAs fall back to a mailto: link. */
 export const CTA_EMAIL_SUBJECT = 'Free visibility check';
@@ -85,6 +89,14 @@ export const hero = {
     items: ['physio, chiro and massage clinics', 'gyms', 'fitness studios', 'recovery studios'],
   },
   reassurance: 'Free. Emailed within one business day.',
+  /**
+   * Limited spots line under the hero button. Keep it true: update the number as spots fill,
+   * and set enabled: false once they're gone.
+   */
+  spots: {
+    enabled: true,
+    text: '5 client spots opening in January. Get your free check to secure yours.',
+  },
   mock: {
     alt: 'Illustration of local map searches, such as "physio near me" and "cold plunge near me". Three nearby businesses are listed for each. Your business is not showing.',
     /** The map cycles through these searches (first one shows without JavaScript or with reduced motion). */
@@ -544,7 +556,7 @@ export const finalCta = {
 export const scorecard = {
   body: "Tell us where you are and we'll email your free one-page scorecard within one business day. It shows where you appear for five local searches, how you compare with three nearby competitors, and whether ChatGPT mentions you.",
   orBook: 'Questions first?',
-  notLive: 'Not live yet: set SCORECARD_FORM_ENDPOINT in src/content/site.ts',
+  notLive: 'Not live yet: set WEB3FORMS_ACCESS_KEY in src/content/site.ts',
   form: {
     businessLabel: 'Business name',
     cityLabel: 'City or neighbourhood',
@@ -552,11 +564,15 @@ export const scorecard = {
     serviceLabel: 'What you do',
     servicePlaceholder: 'Pilates studio',
     emailLabel: 'Email',
+    phoneLabel: 'Phone',
+    phoneOptional: '(optional)',
+    /** Subject line of the email Web3Forms sends you for each request. */
+    notifySubject: 'New visibility check request',
     // Marketing consent wording. Optional, unticked by default. Stored with each submission.
     optIn:
       'Yes, also email me marketing tips and offers from Get Found (Altura Marketing LTD). I can unsubscribe at any time.',
     submit: 'Send me my scorecard',
-    finePrint: 'We use these details to prepare and email your scorecard. No health or client information needed.',
+    finePrint: 'We use these details to prepare and email your scorecard, and may call if you add a phone number. No health or client information needed.',
     privacyLabel: 'Privacy policy',
     success: "Thanks. Your scorecard is on its way: look for an email from us within one business day.",
     error: 'Sorry, that did not send. Please try again in a moment.',
