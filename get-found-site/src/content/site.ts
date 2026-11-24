@@ -386,7 +386,7 @@ export const why = {
    */
   founder: {
     name: 'Nathaniel',
-    role: 'Founder, Get Found',
+    role: 'Founder, Get Found With Altura',
     photo: 'founder.jpg',
     photoAlt: 'Nathaniel, founder of Get Found',
     bio: [
