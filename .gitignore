@@ -17,3 +17,6 @@ get-found-site.zip
 **/.impeccable/hook.cache.json
 **/.impeccable/hook.pending.json
 # impeccable-ignore-end
+
+# Visibility check scorecards contain lead details: keep them local
+scorecards/

@@ -425,6 +425,8 @@ export const pricing = {
   intro: 'Month-to-month, or prepay 6 or 12 months for a lower price. Everything is included in every option.',
   defaultCurrency: 'CAD' as Currency,
   setup: { CAD: 500, USD: 350 },
+  /** Setup when we build the Google Business Profile from scratch. USD set at the same 0.7 ratio as the standard fee; confirm. */
+  setupFromScratch: { CAD: 750, USD: 525 },
   plans: [
     {
       id: '12-month',
@@ -453,7 +455,8 @@ export const pricing = {
     },
   ],
   setupWaivedLabel: 'Setup waived',
-  setupLine: 'Setup: $500 CAD / $350 USD, waived on the 12-month plan.',
+  setupFromScratchNote: 'if we build your Google profile from scratch',
+  setupWaivedNote: 'waived on the 12-month plan',
   taxNote: 'Prices exclude applicable taxes.',
   prepaidLabel: 'paid up front',
   monthlyLabel: 'Billed monthly. Stop anytime.',

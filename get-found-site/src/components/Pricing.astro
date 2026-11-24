@@ -73,7 +73,13 @@ const money = (n: number) => '$' + n.toLocaleString('en-US');
 </ul>
 
 <div class="mt-6 text-sm text-slate">
-  <p class="font-semibold text-ink">{pricing.setupLine}</p>
+  <p class="font-semibold text-ink">
+    {currencies.map((cur) => (
+      <span data-cur={cur}>
+        Setup: ${pricing.setup[cur]} {cur} (${pricing.setupFromScratch[cur]} {cur} {pricing.setupFromScratchNote}), {pricing.setupWaivedNote}.
+      </span>
+    ))}
+  </p>
   <p class="mt-1">{pricing.taxNote}</p>
 </div>
 

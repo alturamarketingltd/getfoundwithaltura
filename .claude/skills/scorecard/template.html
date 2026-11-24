@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Visibility scorecard</title>
+<style>
+  /* @font-face for Hanken Grotesk is injected by render.mjs */
+  :root {
+    --ink: #002fa7; --ink-2: #001a63; --paper: #e9e1d3; --chalk: #f6f1e8; --line: #d6cbb6;
+    --sun: #f9e14c; --mist: #c9d3f5; --slate: #3d4565; --good: #1f6b3a; --bad: #9a2a12;
+  }
+  @page { size: Letter; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 8.5in; height: 11in; }
+  body { font-family: "Hanken Grotesk", system-ui, sans-serif; color: var(--ink); background: var(--paper); font-size: 10px; line-height: 1.35; display: flex; flex-direction: column; }
+  header { background: var(--ink); color: var(--paper); padding: 20px 36px 16px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .logo { font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+  .logo span { color: var(--sun); }
+  h1 { font-size: 21px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-top: 6px; }
+  .meta { text-align: right; color: var(--mist); font-size: 10.5px; line-height: 1.5; }
+  main { padding: 14px 36px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; flex: 1; align-content: start; }
+  .card { background: var(--chalk); border: 1px solid var(--line); border-radius: 12px; padding: 10px 13px; }
+  .wide { grid-column: 1 / -1; }
+  h2 { font-size: 12.5px; font-weight: 800; margin-bottom: 7px; }
+  .sub { color: var(--slate); font-size: 9.5px; margin: -4px 0 7px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 9px; font-weight: 700; color: var(--slate); padding: 0 0 3px; }
+  td { padding: 3px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  th + th, td + td { padding-left: 14px; }
+  td.num, th.num { text-align: right; padding-right: 0; }
+  tr.you td { font-weight: 700; background: #e3e9fb; }
+  .pill { display: inline-block; border-radius: 99px; padding: 1px 7px; font-weight: 700; font-size: 9px; }
+  .yes { background: #dcefe2; color: var(--good); }
+  .no { background: #f6ddd5; color: var(--bad); }
+  .meh { background: #ece4d3; color: var(--slate); }
+  ol, ul { padding-left: 15px; }
+  li { margin: 2px 0; }
+  .shot { width: 100%; max-height: 120px; object-fit: cover; object-position: top; border-radius: 8px; border: 1px solid var(--line); margin-top: 6px; }
+  .quote { color: var(--slate); font-size: 9.5px; margin-top: 2px; }
+  .fix { background: var(--ink); color: var(--paper); border: none; }
+  .fix h2 { color: var(--paper); }
+  .fix li::marker { color: var(--sun); font-weight: 800; }
+  footer { padding: 10px 36px 14px; color: var(--slate); font-size: 9px; display: flex; justify-content: space-between; gap: 16px; }
+  .empty { color: var(--slate); font-style: italic; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="logo">Get Found<span>.</span></div>
+    <h1 id="title"></h1>
+  </div>
+  <div class="meta" id="meta"></div>
+</header>
+<main id="main"></main>
+<footer>
+  <span>Prepared by Get Found, a service by Altura Marketing LTD. Results reflect searches made on the date shown and can change day to day.</span>
+  <span>hello@getfoundwithaltura.com</span>
+</footer>
+<script>
+  const d = window.SCORECARD;
+  const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const pill = (state, text) => `<span class="pill ${state}">${esc(text)}</span>`;
+  const el = (html, cls = 'card') => `<section class="${cls}">${html}</section>`;
+
+  document.getElementById('title').textContent = `${d.business}: visibility scorecard`;
+  document.getElementById('meta').innerHTML = `${esc(d.service)}<br>${esc(d.city)}<br>${esc(d.date)}`;
+
+  const parts = [];
+
+  // 1. Local searches
+  const rows = (d.searches || []).map((s) => {
+    const pos = s.position ? pill(Number(s.position) <= 3 ? 'yes' : 'meh', `#${s.position}`) : pill('no', 'Not showing');
+    return `<tr><td>${esc(s.query)}</td><td class="num">${pos}</td></tr>`;
+  }).join('');
+  parts.push(el(`<h2>Your local searches</h2><p class="sub">Map results as someone in ${esc(d.city)} sees them.</p>
+    <table><tr><th>Search</th><th class="num">Your spot</th></tr>${rows}</table>
+    ${d.mapScreenshot ? `<img class="shot" src="${esc(d.mapScreenshot)}" alt="">` : ''}`));
+
+  // 2. AI answers
+  const ai = (d.ai || []).map((a) => `<tr><td><strong>${esc(a.tool)}</strong><div class="quote">"${esc(a.question)}"</div>${a.note ? `<div class="quote">${esc(a.note)}</div>` : ''}</td>
+    <td class="num">${a.mentioned ? pill('yes', 'Mentioned') : pill('no', 'Not mentioned')}</td></tr>`).join('');
+  parts.push(el(`<h2>AI answers</h2><p class="sub">What ChatGPT and Google's AI say when asked.</p>
+    <table><tr><th>Question</th><th class="num">You</th></tr>${ai}</table>`));
+
+  // 3. You vs the top 3
+  const comp = [{ ...(d.you || {}), name: d.business, you: true }, ...(d.competitors || [])].map((c) => `<tr class="${c.you ? 'you' : ''}">
+    <td>${esc(c.name)}</td><td class="num">${esc(c.rating ?? '–')}</td><td class="num">${esc(c.reviews ?? '–')}</td>
+    <td class="num">${esc(c.photos ?? '–')}</td><td>${esc(c.lastPost ?? '–')}</td></tr>`).join('');
+  const gaps = (d.gaps || []).map((g) => `<li>${esc(g)}</li>`).join('');
+  parts.push(el(`<h2>You vs the top 3 nearby</h2>
+    <table><tr><th>Business</th><th class="num">Rating</th><th class="num">Reviews</th><th class="num">Photos</th><th>Last post</th></tr>${comp}</table>
+    ${gaps ? `<h2 style="margin-top:10px">Your 3 biggest gaps</h2><ol>${gaps}</ol>` : ''}`, 'card wide'));
+
+  // 4. Consistency
+  const label = { ok: ['yes', 'Correct'], wrong: ['no', 'Wrong details'], missing: ['meh', 'Not listed'] };
+  const cons = (d.consistency || []).map((c) => {
+    const [cls, txt] = label[c.status] || ['meh', c.status];
+    return `<tr><td>${esc(c.site)}${c.note ? `<div class="quote">${esc(c.note)}</div>` : ''}</td><td class="num">${pill(cls, txt)}</td></tr>`;
+  }).join('');
+  parts.push(el(`<h2>Your details across the web</h2><table>${cons}</table>`));
+
+  // 5. Website and demand
+  const w = d.website || {};
+  const speed = w.mobileSpeed == null ? pill('meh', 'Not checked') : pill(w.mobileSpeed >= 90 ? 'yes' : w.mobileSpeed >= 50 ? 'meh' : 'no', `${w.mobileSpeed}/100`);
+  const dem = d.demand || {};
+  parts.push(el(`<h2>Website and demand</h2><table>
+    <tr><td>Google has indexed your site${w.url ? `<div class="quote">${esc(w.url)}</div>` : ''}</td><td class="num">${w.indexed ? pill('yes', 'Yes') : pill('no', 'No')}</td></tr>
+    <tr><td>Mobile speed (Google PageSpeed)</td><td class="num">${speed}</td></tr>
+    <tr><td>Monthly searches for your main services${dem.note ? `<div class="quote">${esc(dem.note)}</div>` : ''}</td><td class="num">${dem.total == null ? pill('meh', 'Not checked') : `<strong>~${esc(dem.total)}</strong>`}</td></tr>
+  </table>`));
+
+  // 6. What we'd fix first
+  const fix = (d.fixFirst || []).map((f) => `<li>${esc(f)}</li>`).join('');
+  parts.push(el(`<h2>What we'd fix first</h2><ol>${fix || '<li class="empty">To be added</li>'}</ol>`, 'card wide fix'));
+
+  document.getElementById('main').innerHTML = parts.join('');
+</script>
+</body>
+</html>
