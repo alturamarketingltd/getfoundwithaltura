@@ -2,7 +2,8 @@ import type { APIRoute } from 'astro';
 import { site } from '../content/site';
 
 // Add new pages here.
-const paths = ['/', '/check', '/privacy', '/terms'];
+// Trailing slashes match the canonical URLs (Cloudflare redirects /check to /check/).
+const paths = ['/', '/check/', '/privacy/', '/terms/'];
 
 export const GET: APIRoute = () => {
   const lastmod = new Date().toISOString().slice(0, 10);
