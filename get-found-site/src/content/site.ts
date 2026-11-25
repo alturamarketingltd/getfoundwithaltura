@@ -91,6 +91,9 @@ export const hero = {
     items: ['physio, chiro and massage clinics', 'gyms', 'fitness studios', 'recovery studios'],
   },
   reassurance: 'Free. Emailed within one business day.',
+  /** What the free check covers, shown under the hero button. */
+  checkIncludes:
+    'Your check shows where you appear in 5 local searches, how you compare with 3 nearby competitors, and whether ChatGPT mentions you.',
   /**
    * Limited spots line under the hero button. Keep it true: update the number as spots fill,
    * and set enabled: false once they're gone.
@@ -582,6 +585,68 @@ export const scorecard = {
     success: "Thanks. Your scorecard is on its way: look for an email from us within one business day.",
     error: 'Sorry, that did not send. Please try again in a moment.',
   },
+};
+
+/* ------------------------------------------------------------------ */
+/* /check landing page (for social posts)                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The page to link from Instagram, LinkedIn and other posts: getfoundwithaltura.com/check.
+ * Add ?utm_source=instagram (etc.) to the link and it shows in the request email.
+ * Only list what every scorecard actually contains.
+ */
+export const checkPage = {
+  title: 'Free visibility check | Get Found',
+  description:
+    'See where your clinic, gym or studio shows up on Google Maps and in AI tools like ChatGPT. A free one-page scorecard, emailed within one business day.',
+  headlineBefore: 'See where you ',
+  headlineHighlight: 'show up',
+  headlineAfter: ' on Google Maps and in ChatGPT.',
+  subhead:
+    "For physio, chiro and massage clinics, gyms, fitness studios and recovery studios. Tell us where you are and we'll email you a one-page scorecard within one business day.",
+  includes: {
+    heading: "What's in your scorecard",
+    items: [
+      { title: 'Your spot in 5 local searches', body: 'Where you show up on the map when someone nearby searches for what you do.' },
+      { title: 'What AI tools say about you', body: 'Whether ChatGPT names you when a customer asks who to go to.' },
+      { title: 'You vs the top 3 nearby', body: 'Rating, reviews, photos and posts, side by side with the businesses showing above you.' },
+      { title: 'Your details across the web', body: 'Whether Apple Maps, Bing, Yelp and Facebook have the right name, phone number and hours.' },
+      { title: 'Your website', body: 'Whether Google has indexed it, and how fast it loads on a phone.' },
+      { title: "What we'd fix first", body: 'Three specific fixes, in order. Do them yourself, or ask us to.' },
+    ],
+    exampleLabel: 'Example',
+    exampleAlt:
+      'Example scorecard for a made-up physio clinic, showing map positions for five searches, AI answers, a comparison with three nearby clinics, listings across the web, website checks and three fixes.',
+    exampleCaption: 'An example for a made-up clinic. Yours uses your real searches and your real competitors.',
+    examplePdf: 'Open the full example (PDF)',
+  },
+  steps: {
+    heading: 'What happens next',
+    items: [
+      { title: 'Fill in the form', body: 'Business name, city, what you do and an email. It takes about a minute.' },
+      {
+        title: 'We run your check',
+        body: 'We run the searches and compare you with the businesses near you. Nathaniel checks every scorecard before it goes out.',
+      },
+      { title: 'Your scorecard arrives', body: "Within one business day, as a one-page PDF with the fixes we'd make first." },
+    ],
+  },
+  faq: [
+    { q: 'Is it really free?', a: 'Yes. The scorecard is yours to keep, whether or not you work with us.' },
+    {
+      q: 'What do you need from me?',
+      a: 'Your business name, city, what you do and an email address. No health or client information.',
+    },
+    {
+      q: 'What will you send me?',
+      a: "Your scorecard, with a short note on what we'd fix first and what it costs if you'd like us to do it. You only get marketing emails if you tick the box.",
+    },
+    { q: 'Where do you work?', a: 'With health and fitness businesses across Canada and the US.' },
+  ],
+  formHeading: 'Get your free check',
+  backToTop: 'Get your free check',
+  learnMore: 'Learn more about Get Found',
 };
 
 /* ------------------------------------------------------------------ */

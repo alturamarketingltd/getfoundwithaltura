@@ -1,0 +1,43 @@
+{
+  "_note": "FICTIONAL example for the /check landing page. Not a real business or real results. Re-render and copy scorecard.png to get-found-site/src/assets/scorecard-example.png.",
+  "business": "Example Physio",
+  "city": "Vancouver, BC",
+  "service": "Physiotherapy clinic",
+  "date": "Example only",
+  "searches": [
+    { "query": "physio vancouver", "position": 9 },
+    { "query": "physiotherapy near me", "position": 12 },
+    { "query": "sports physio vancouver", "position": 4 },
+    { "query": "physio clinic kitsilano", "position": 2 },
+    { "query": "vestibular physiotherapy vancouver", "position": null }
+  ],
+  "ai": [
+    { "tool": "ChatGPT", "question": "Who offers sports physio in Vancouver?", "mentioned": false, "note": "Named 5 clinics, not this one." },
+    { "tool": "ChatGPT", "question": "Best physio clinic in Kitsilano?", "mentioned": true, "note": "Listed 3rd, described as 'good for runners'." },
+    { "tool": "Google AI Mode", "question": "Physio for dizziness in Vancouver?", "mentioned": false, "note": "Named 3 clinics that list vestibular care." }
+  ],
+  "you": { "rating": 4.9, "reviews": 31, "photos": 12, "lastPost": "Never" },
+  "competitors": [
+    { "name": "Top clinic nearby", "rating": 4.8, "reviews": 284, "photos": 160, "lastPost": "4 days ago" },
+    { "name": "Second clinic nearby", "rating": 4.7, "reviews": 197, "photos": 88, "lastPost": "2 weeks ago" },
+    { "name": "Third clinic nearby", "rating": 4.8, "reviews": 143, "photos": 64, "lastPost": "Never" }
+  ],
+  "gaps": [
+    "31 reviews vs an average of 208 for the top 3. Your rating is higher, but review count is holding you back.",
+    "12 photos vs an average of 104, and no posts on your Google profile.",
+    "Vestibular care isn't on your profile or website, so you don't show up when people search for it."
+  ],
+  "consistency": [
+    { "site": "Apple Maps", "status": "wrong", "note": "Old phone number" },
+    { "site": "Bing Places", "status": "missing" },
+    { "site": "Yelp", "status": "incomplete", "note": "No hours listed" },
+    { "site": "Facebook", "status": "ok" }
+  ],
+  "website": { "url": "examplephysio.ca", "indexed": true, "mobileSpeed": 54 },
+  "demand": { "total": "1,900", "note": "Across 4 main searches" },
+  "fixFirst": [
+    "Ask every patient for a review after their visit, with a direct link and QR code at the front desk.",
+    "Fix the Apple Maps phone number, set up Bing Places and add hours to Yelp.",
+    "Add vestibular physio to your Google profile services and publish a page about it on your site."
+  ]
+}

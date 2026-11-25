@@ -5,6 +5,11 @@
  * While the key is empty the form is shown in dev only (with a warning) and sends nothing.
  */
 import { scorecard, SCORECARD_FORM_ENDPOINT, WEB3FORMS_ACCESS_KEY } from '../content/site';
+interface Props {
+  /** Where the form sits, e.g. 'check page'. Added to the email subject so you can see where leads come from. */
+  source?: string;
+}
+const { source = 'homepage' } = Astro.props;
 const live = Boolean(SCORECARD_FORM_ENDPOINT);
 const f = scorecard.form;
 const input =
@@ -13,10 +18,11 @@ const input =
 
 <form
   id="scorecard-form"
-  class="rounded-3xl bg-chalk p-6 text-left shadow-sm ring-1 ring-paper-2 sm:p-8"
+  class="on-light rounded-3xl bg-chalk p-6 text-left text-ink shadow-sm ring-1 ring-paper-2 sm:p-8"
   data-endpoint={SCORECARD_FORM_ENDPOINT}
   data-access-key={WEB3FORMS_ACCESS_KEY}
   data-subject={f.notifySubject}
+  data-source={source}
   data-consent-text={f.optIn}
   data-success={f.success}
   data-error={f.error}
@@ -114,7 +120,8 @@ const input =
       const payload = {
         // Web3Forms fields: the key routes it to your inbox; subject and from_name label the email.
         access_key: form.dataset.accessKey,
-        subject: `${form.dataset.subject}: ${business}`,
+        subject: `${form.dataset.subject}: ${business} (${form.dataset.source})`,
+        source: form.dataset.source,
         from_name: 'Get Found website',
         business,
         city: String(data.get('city') ?? '').trim(),

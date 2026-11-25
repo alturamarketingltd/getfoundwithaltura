@@ -131,7 +131,9 @@ const icons: Record<string, string> = {
         <div class="mt-9">
           <Cta location="hero" />
         </div>
-        <p class="mt-4 text-sm text-mist">{hero.reassurance}</p>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-mist">
+          <span class="font-semibold text-paper">{hero.reassurance}</span> {hero.checkIncludes}
+        </p>
         {hero.spots.enabled && (
           <p class="mt-5 inline-flex items-center gap-2.5 rounded-full border border-mist/50 px-4 py-2 text-sm font-semibold text-paper">
             <span class="h-2 w-2 shrink-0 rounded-full bg-paper" aria-hidden="true" />

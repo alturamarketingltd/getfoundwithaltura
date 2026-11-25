@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { site } from '../content/site';
 
 // Add new pages here.
-const paths = ['/', '/privacy', '/terms'];
+const paths = ['/', '/check', '/privacy', '/terms'];
 
 export const GET: APIRoute = () => {
   const lastmod = new Date().toISOString().slice(0, 10);

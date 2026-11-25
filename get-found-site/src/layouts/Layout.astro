@@ -10,9 +10,11 @@ interface Props {
   description?: string;
   /** JSON-LD objects to output in the head. */
   jsonLd?: Record<string, unknown>[];
+  /** Landing pages: logo only in the header, no menu or header button. */
+  minimal?: boolean;
 }
 
-const { title = site.title, description = site.description, jsonLd = [] } = Astro.props;
+const { title = site.title, description = site.description, jsonLd = [], minimal = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 const ogImage = new URL(site.ogImage, site.url).toString();
 const year = new Date().getFullYear();
@@ -86,6 +88,7 @@ const year = new Date().getFullYear();
         <a href="/" class="shrink-0 whitespace-nowrap font-display text-xl font-extrabold tracking-tight sm:text-2xl" aria-label={`${site.name} home`}>
           Get Found<span class="text-sun" aria-hidden="true">.</span>
         </a>
+        {!minimal && (
         <nav aria-label="Main" class="flex items-center gap-1 sm:gap-2">
           <ul class="hidden items-center md:flex">
             {
@@ -114,6 +117,7 @@ const year = new Date().getFullYear();
             </ul>
           </details>
         </nav>
+        )}
       </div>
     </header>
 

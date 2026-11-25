@@ -85,3 +85,15 @@ Sign off as Nathaniel, Get Found. No ranking promises, no invented urgency.
 ## Finish
 
 Tell Nathaniel: the folder path, the 3 gaps in one line each, anything you couldn't check and why, and that the PDF and email are ready for him to review and send.
+
+## Example scorecard (for the /check page)
+
+`example/data.json` is a made-up clinic ("Example Physio") used on getfoundwithaltura.com/check. If you change `template.html`, re-render it and copy the outputs into the site:
+
+```bash
+PATH="$HOME/.local/node/current/bin:$PATH" node .claude/skills/scorecard/render.mjs .claude/skills/scorecard/example/data.json
+cp .claude/skills/scorecard/example/scorecard.png get-found-site/src/assets/scorecard-example.png
+cp .claude/skills/scorecard/example/scorecard.pdf get-found-site/public/scorecard-example.pdf
+```
+
+Never use a real lead's scorecard as an example.
